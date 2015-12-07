@@ -9,7 +9,6 @@ import com.bastosbf.market.search.server.model.MarketSuggestion;
 import com.bastosbf.market.search.server.model.PriceSuggestion;
 import com.bastosbf.market.search.server.model.Product;
 import com.bastosbf.market.search.server.model.ProductSuggestion;
-import com.bastosbf.market.search.server.operation.CollaborationRESTOperation;
 
 public class HibernateConfig {
 
@@ -20,7 +19,6 @@ public class HibernateConfig {
 			.buildSessionFactory();
 
 	public static void main(String[] args) throws Exception {
-		CollaborationRESTOperation op = new CollaborationRESTOperation();
-		op.suggestPrice(1, "000000", 10.53);
+		
 	}
 }
