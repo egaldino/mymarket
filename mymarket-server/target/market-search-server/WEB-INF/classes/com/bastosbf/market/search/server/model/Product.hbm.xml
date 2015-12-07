@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="com.bastosbf.market.search.server.model.Product"
-		table="product">
+		table="product" lazy="false">
 		<id name="barcode" column="barcode" />
 		<property name="name" />
 		<property name="brand" />

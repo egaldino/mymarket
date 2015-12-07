@@ -11,11 +11,13 @@
 			com.mysql.jdbc.Driver
 		</property>
 		<property name="hibernate.connection.url">
-			jdbc:mysql://localhost/market_search
+			jdbc:mysql://localhost/mymarket
 		</property>
 		<property name="hibernate.connection.username">
 			root
 		</property>
-		<property name="hibernate.connection.password"/>
+		<property name="hibernate.connection.password">
+			123456
+		</property>
 	</session-factory>
 </hibernate-configuration>

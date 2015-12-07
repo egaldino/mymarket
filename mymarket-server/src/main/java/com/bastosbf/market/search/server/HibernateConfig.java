@@ -3,6 +3,7 @@ package com.bastosbf.market.search.server;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import com.bastosbf.market.search.server.dao.MarketProductDAO;
 import com.bastosbf.market.search.server.model.Market;
 import com.bastosbf.market.search.server.model.MarketProduct;
 import com.bastosbf.market.search.server.model.MarketSuggestion;
@@ -19,6 +20,8 @@ public class HibernateConfig {
 			.buildSessionFactory();
 
 	public static void main(String[] args) throws Exception {
-		
+		MarketProductDAO dao = new MarketProductDAO(factory);
+		Product product = dao.getCheapestById("000000");
+		System.out.println(product.getName());
 	}
 }

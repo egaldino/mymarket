@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="com.bastosbf.market.search.server.model.MarketProduct"
-		table="market_product">
+		table="market_product" lazy="false">
 		<composite-id>
 			<key-many-to-one name="market"
 				class="com.bastosbf.market.search.server.model.Market">

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MSearch.iml" filepath="$PROJECT_DIR$/MSearch.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mymarket-android.iml" filepath="$PROJECT_DIR$/mymarket-android.iml" />
     </modules>
   </component>
 </project>

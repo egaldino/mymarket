@@ -9,6 +9,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.bastosbf.market.search.server.HibernateConfig;
+import com.bastosbf.market.search.server.dao.MarketProductDAO;
 import com.bastosbf.market.search.server.dao.ProductDAO;
 import com.bastosbf.market.search.server.model.Product;
 
@@ -31,5 +32,15 @@ public class ProductRESTOperation {
 		ProductDAO dao = new ProductDAO(HibernateConfig.factory);
 		return dao.list(market);
 	}
+
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("/get")
+	public Product get(@QueryParam("barcode") String barcode) {
+		MarketProductDAO dao = new MarketProductDAO(HibernateConfig.factory);
+		return dao.getCheapestById(barcode);
+	}
+	
+	
 
 }

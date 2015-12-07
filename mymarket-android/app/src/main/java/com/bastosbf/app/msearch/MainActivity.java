@@ -51,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == IntentIntegrator.REQUEST_CODE) {
-            Intent intent = new Intent(MainActivity.this, ProductActivity.class);
+            Intent intent = new Intent(MainActivity.this, FindProductService.class);
             String barcode = data.getStringExtra("SCAN_RESULT");
             intent.putExtra("barcode", barcode);
-            startActivity(intent);
+            startService(intent);
         }
     }
 }
