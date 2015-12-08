@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 
 import com.bastosbf.app.msearch.activity.MainActivity;
+import com.bastosbf.app.msearch.model.Market;
 import com.bastosbf.app.msearch.model.Place;
 
 import org.json.JSONArray;
@@ -14,7 +15,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -23,10 +23,10 @@ import java.util.List;
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
-public class ListPlacesService extends IntentService {
+public class ListMarketsService extends IntentService {
 
 
-    public ListPlacesService(){
+    public ListMarketsService(){
         super("FindProductService");
     }
 
@@ -38,8 +38,8 @@ public class ListPlacesService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         try {
-            //URL url = new URL(properties.getProperty("root.url") + "/rest/place/list");
-            URL url = new URL("http://pc8812.sinapad.lncc.br:8080/mymarket-server/rest/place/list");
+            Place place = (Place) intent.getSerializableExtra("place");
+            URL url = new URL("http://pc8812.sinapad.lncc.br:8080/mymarket-server/rest/market/list?place="+place.getId());
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Accept", "application/json");
@@ -52,29 +52,31 @@ public class ListPlacesService extends IntentService {
             }
             in.close();
             if (!response.isEmpty()) {
-                ArrayList<Place> values = new ArrayList<Place>();
+                ArrayList<Market> values = new ArrayList<Market>();
                 //add select message
                 {
-                    Place p = new Place();
-                    p.setId(0);
-                    p.setName("Selecione o mercado");
-                    values.add(p);
+                    Market m = new Market();
+                    m.setId(0);
+                    m.setName("Selecione o mercado...");
+                    values.add(m);
                 }
-                JSONArray places = new JSONArray(response);
-                int length = places.length();
+                JSONArray markets = new JSONArray(response);
+                int length = markets.length();
                 for (int i = 0; i < length; i++) {
-                    JSONObject place = places.getJSONObject(i);
-                    int id = place.getInt("id");
-                    String name = place.getString("name");
+                    JSONObject market = markets.getJSONObject(i);
+                    int id = market.getInt("id");
+                    String name = market.getString("name");
 
-                    Place p = new Place();
-                    p.setId(id);
-                    p.setName(name);
+                    Market m = new Market();
+                    m.setId(id);
+                    m.setName(name);
 
-                    values.add(p);
+                    values.add(m);
                 }
-                Intent i = new Intent(ListPlacesService.this, MainActivity.class);
-                i.putExtra("places", values);
+                Intent i = new Intent(ListMarketsService.this, MainActivity.class);
+                i.putExtra("markets", values);
+                i.putExtra("place", place);
+                //i.putExtra("places", places);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 startActivity(i);

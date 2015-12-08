@@ -18,7 +18,9 @@ public class MarketDAO extends GenericDAO<Market> {
 	public List<Market> list(int place) {
 		Session session = factory.openSession();
 		session.beginTransaction();
-		Criteria criteria = session.createCriteria(Market.class).add(Restrictions.eq("place", place));
+		Criteria criteria = session.createCriteria(Market.class)
+				.createAlias("place", "p")
+				.add(Restrictions.eq("p.id", place));
 		List<Market> list = criteria.list();
 		return list;
 	}
@@ -26,7 +28,8 @@ public class MarketDAO extends GenericDAO<Market> {
 	public Market get(int id) {
 		Session session = factory.openSession();
 		session.beginTransaction();
-		Criteria criteria = session.createCriteria(Market.class).add(Restrictions.eq("id", id));
+		Criteria criteria = session.createCriteria(Market.class)
+				.add(Restrictions.eq("id", id));
 		List<Market> list = criteria.list();
 		if (!list.isEmpty()) {
 			return list.get(0);

@@ -4,33 +4,25 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.bastosbf.app.msearch.MainActivity">
+    tools:context="com.bastosbf.app.msearch.activity.MainActivity">
 
-    <Button
+    <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Informar localização..."
-        android:id="@+id/button1"
-        android:onClick="listPlaces"
+        android:id="@+id/spinner1"
+        android:spinnerMode="dropdown"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="30dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Button
+
+    <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Informar Mercado..."
-        android:id="@+id/button2"
-        android:onClick="listMarkets"
-        android:layout_below="@+id/button1"
-        android:layout_alignRight="@+id/button1"
-        android:layout_alignEnd="@+id/button1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:enabled="false" />
+        android:id="@+id/spinner2"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/spinner1"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="100dp"
@@ -41,6 +33,7 @@
         android:text="Escanear Código de Barras"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
 
 
 

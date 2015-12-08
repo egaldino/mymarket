@@ -3,12 +3,11 @@ package com.bastosbf.app.msearch.service;
 import android.app.IntentService;
 import android.content.Intent;
 
-import com.bastosbf.app.msearch.ProductActivity;
+import com.bastosbf.app.msearch.activity.ProductActivity;
 
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -20,23 +19,17 @@ import java.net.URL;
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
-public class FindProductService extends IntentService {
+public class FindProductService extends MainService {
 
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
-     */
-    public FindProductService(String name) {
-        super(name);
+    public FindProductService(){
+        super("FindProductService");
     }
-    public FindProductService(){this("FindProductService");}
 
     @Override
     protected void onHandleIntent(Intent intent) {
         try {
             String barcode = intent.getStringExtra("barcode");
-            URL url = new URL("http://pc8812.sinapad.lncc.br:8080/mymarket-server/rest/product/get?barcode="+barcode);
+            URL url = new URL(properties.getProperty("root.url") + "/rest/product/get?barcode="+barcode);
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Accept", "application/json");
