@@ -6,6 +6,8 @@
 		table="market" lazy="false">
 		<id name="id" column="id" />
 		<property name="name" />
+		<many-to-one name="place"
+			class="com.bastosbf.market.search.server.model.Place" fetch="select" />
 		<property name="address" />
 	</class>
 </hibernate-mapping>

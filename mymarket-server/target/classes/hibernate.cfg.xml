@@ -14,10 +14,10 @@
 			jdbc:mysql://localhost/mymarket
 		</property>
 		<property name="hibernate.connection.username">
-			root
+			user
 		</property>
 		<property name="hibernate.connection.password">
-			123456
+			password
 		</property>
 	</session-factory>
 </hibernate-configuration>

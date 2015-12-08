@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Market implements Serializable {
 	private Integer id;
 	private String name;
+	private Place place;
 	private String address;
 
 	public Integer getId() {
@@ -24,6 +25,14 @@ public class Market implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Place getPlace() {
+		return place;
+	}
+
+	public void setPlace(Place place) {
+		this.place = place;
 	}
 
 	public String getAddress() {
