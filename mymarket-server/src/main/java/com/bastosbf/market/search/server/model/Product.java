@@ -1,6 +1,7 @@
 package com.bastosbf.market.search.server.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

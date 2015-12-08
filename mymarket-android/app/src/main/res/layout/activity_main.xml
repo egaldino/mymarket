@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:text="Informar localização..."
         android:id="@+id/button1"
+        android:onClick="listPlaces"
         android:layout_alignParentTop="true"
         android:layout_marginTop="30dp"
         android:layout_alignParentRight="true"
@@ -19,28 +20,28 @@
         android:layout_alignParentStart="true" />
 
     <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Informar Mercado..."
+        android:id="@+id/button2"
+        android:onClick="listMarkets"
+        android:layout_below="@+id/button1"
+        android:layout_alignRight="@+id/button1"
+        android:layout_alignEnd="@+id/button1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:enabled="false" />
+
+    <Button
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/scan_button"
-        android:id="@+id/button2"
+        android:id="@+id/button3"
         android:onClick="scan"
         android:text="Escanear Código de Barras"
-        android:layout_marginTop="39dp"
-        android:layout_below="@+id/button1"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Informar preço do produto"
-        android:id="@+id/button3"
-        android:onClick="scan"
-        android:layout_marginTop="32dp"
-        android:layout_below="@+id/button2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

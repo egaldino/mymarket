@@ -9,7 +9,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.bastosbf.market.search.server.model.MarketProduct;
-import com.bastosbf.market.search.server.model.Product;
 
 public class MarketProductDAO extends GenericDAO<MarketProduct> {
 
@@ -17,16 +16,34 @@ public class MarketProductDAO extends GenericDAO<MarketProduct> {
 		super(factory);
 	}
 
-	public Product getCheapestById(String barcode) {
+	public List<MarketProduct> getByMarket(int market) {
 		Session session = factory.openSession();
 		session.beginTransaction();
-		Criteria criteria = session.createCriteria(MarketProduct.class).add(Restrictions.eq("product.barcode", barcode)).addOrder(Order.asc("price"));
-		criteria.setMaxResults(1);
-		List<MarketProduct> list = criteria.list();
-		if (!list.isEmpty()) {
-			Product product = list.get(0).getProduct();
-			return product;
-		}
-		return null;
+		Criteria criteria = session.createCriteria(MarketProduct.class)
+				.createAlias("product", "p")
+				.createAlias("market", "m")
+				.add(Restrictions.eq("m.id", market))
+				.addOrder(Order.asc("p.name"));
+		List<MarketProduct> list = criteria.list();		
+		return list;
+	}
+	
+	
+	public List<MarketProduct> getByBarcodeAndPlace(String barcode, int place, int maxResults) {
+		Session session = factory.openSession();
+		session.beginTransaction();
+		Criteria criteria = session.createCriteria(MarketProduct.class)
+				.createAlias("product", "p")
+				.createAlias("market", "m")
+				.add(Restrictions.eq("p.barcode", barcode))
+				.add(Restrictions.eq("m.place.id", place))
+				.addOrder(Order.asc("price"));
+		criteria.setMaxResults(maxResults);
+		List<MarketProduct> list = criteria.list();		
+		return list;
+	}
+	
+	public List<MarketProduct> getByBarcodeAndPlace(String barcode, int place) {
+		return getByBarcodeAndPlace(barcode, place, -1);
 	}
 }

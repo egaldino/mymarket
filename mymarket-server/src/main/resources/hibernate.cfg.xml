@@ -17,7 +17,7 @@
 			user
 		</property>
 		<property name="hibernate.connection.password">
-			password
+			pass
 		</property>
 	</session-factory>
 </hibernate-configuration>

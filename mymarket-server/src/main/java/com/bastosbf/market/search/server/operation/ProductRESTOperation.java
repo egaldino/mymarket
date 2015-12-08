@@ -18,15 +18,6 @@ public class ProductRESTOperation {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Path("/add")
-	public void add(@QueryParam("market") int market,
-			@QueryParam("name") String name, @QueryParam("brand") String brand,
-			@QueryParam("price") double price) {
-
-	}
-
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/list")
 	public List<Product> list(@QueryParam("market") int market) {
 		ProductDAO dao = new ProductDAO(HibernateConfig.factory);
@@ -37,8 +28,8 @@ public class ProductRESTOperation {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/get")
 	public Product get(@QueryParam("barcode") String barcode) {
-		MarketProductDAO dao = new MarketProductDAO(HibernateConfig.factory);
-		return dao.getCheapestById(barcode);
+		ProductDAO dao = new ProductDAO(HibernateConfig.factory);
+		return dao.get(barcode);
 	}
 	
 	

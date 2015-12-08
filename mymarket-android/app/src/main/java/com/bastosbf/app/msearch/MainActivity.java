@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.bastosbf.app.msearch.service.FindProductService;
 import com.google.zxing.integration.android.IntentIntegrator;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +47,14 @@ public class MainActivity extends AppCompatActivity {
         integrator.setCameraId(0); // Use a specific camera of the device
         integrator.setBeepEnabled(true);
         integrator.initiateScan(IntentIntegrator.ALL_CODE_TYPES);
+    }
+
+    public void listPlaces(View view) {
+
+    }
+
+    public void listMarkets(View view) {
+
     }
 
     @Override

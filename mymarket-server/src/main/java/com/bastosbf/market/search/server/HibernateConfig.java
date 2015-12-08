@@ -3,7 +3,6 @@ package com.bastosbf.market.search.server;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import com.bastosbf.market.search.server.dao.MarketDAO;
 import com.bastosbf.market.search.server.model.Market;
 import com.bastosbf.market.search.server.model.MarketProduct;
 import com.bastosbf.market.search.server.model.MarketSuggestion;

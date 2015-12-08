@@ -7,30 +7,31 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
-import com.bastosbf.market.search.server.model.Market;
+import com.bastosbf.market.search.server.model.Place;
 
-public class MarketDAO extends GenericDAO<Market> {
+public class PlaceDAO extends GenericDAO<Place> {
 
-	public MarketDAO(SessionFactory factory) {
+	public PlaceDAO(SessionFactory factory) {
 		super(factory);
 	}
 
-	public List<Market> list(int place) {
+	public List<Place> list() {
 		Session session = factory.openSession();
 		session.beginTransaction();
-		Criteria criteria = session.createCriteria(Market.class).add(Restrictions.eq("place", place));
-		List<Market> list = criteria.list();
+		Criteria criteria = session.createCriteria(Place.class);
+		List<Place> list = criteria.list();
 		return list;
 	}
 
-	public Market get(int id) {
+	public Place get(int id) {
 		Session session = factory.openSession();
 		session.beginTransaction();
-		Criteria criteria = session.createCriteria(Market.class).add(Restrictions.eq("id", id));
-		List<Market> list = criteria.list();
+		Criteria criteria = session.createCriteria(Place.class).add(Restrictions.eq("id", id));
+		List<Place> list = criteria.list();
 		if (!list.isEmpty()) {
 			return list.get(0);
 		}
 		return null;
 	}
+
 }

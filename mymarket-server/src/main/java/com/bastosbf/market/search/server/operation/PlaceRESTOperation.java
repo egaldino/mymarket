@@ -9,26 +9,26 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.bastosbf.market.search.server.HibernateConfig;
-import com.bastosbf.market.search.server.dao.MarketDAO;
-import com.bastosbf.market.search.server.model.Market;
+import com.bastosbf.market.search.server.dao.PlaceDAO;
+import com.bastosbf.market.search.server.model.Place;
 
-@Path("/market")
-public class MarketRESTOperation {
+@Path("/place")
+public class PlaceRESTOperation {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/list")
-	public List<Market> list(@QueryParam("place") int place) {
-		MarketDAO dao = new MarketDAO(HibernateConfig.factory);
-		return dao.list(place);
+	public List<Place> list() {
+		PlaceDAO dao = new PlaceDAO(HibernateConfig.factory);
+		return dao.list();
 	}
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/get")
-	public Market get(@QueryParam("market") int market) {
-		MarketDAO dao = new MarketDAO(HibernateConfig.factory);
-		return dao.get(market);
+	public Place get(@QueryParam("place") int place) {
+		PlaceDAO dao = new PlaceDAO(HibernateConfig.factory);
+		return dao.get(place);
 	}
 
 }
