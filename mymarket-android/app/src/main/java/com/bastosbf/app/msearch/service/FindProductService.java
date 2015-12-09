@@ -38,7 +38,7 @@ public class FindProductService extends IntentService {
         try {
             String barcode = intent.getStringExtra("barcode");
             Place place = (Place) intent.getSerializableExtra("place");
-            URL url = new URL("http://localhost:8080/mymarket-server/rest/search/prices?barcode="+barcode + "&place="+place.getId());
+            URL url = new URL("http://pc8812.sinapad.lncc.br:8080/mymarket-server/rest/search/prices?barcode="+barcode + "&place="+place.getId());
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Accept", "application/json");
@@ -54,37 +54,39 @@ public class FindProductService extends IntentService {
                 JSONArray results = new JSONArray(response);
                 ArrayList<Search> values = new ArrayList<Search>();
                 int length = results.length();
-                    for (int i = 0; i < length; i++) {
-                        JSONObject result = results.getJSONObject(i);
+                for (int i = 0; i < length; i++) {
+                    JSONObject result = results.getJSONObject(i);
 
-                        JSONObject product = result.getJSONObject("product");
-                        Product p = new Product();
-                        p.setBarcode(product.getString("barcode"));
-                        p.setName(product.getString("name"));
-                        p.setBrand(product.getString("brand"));
+                    JSONObject product = result.getJSONObject("product");
+                    Product p = new Product();
+                    p.setBarcode(product.getString("barcode"));
+                    p.setName(product.getString("name"));
+                    p.setBrand(product.getString("brand"));
 
-                        JSONObject market = result.getJSONObject("market");
-                        Market m = new Market();
-                        m.setId(market.getInt("id"));
-                        m.setName(market.getString("name"));
+                    JSONObject market = result.getJSONObject("market");
+                    Market m = new Market();
+                    m.setId(market.getInt("id"));
+                    m.setName(market.getString("name"));
 
-                        double price = result.getDouble("price");
-                        String date = result.getString("last-update");
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date lastUpdate = sdf.parse(date);
+                    double price = result.getDouble("price");
+                    String date = result.getString("last-update");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                    Date lastUpdate = sdf.parse(date);
 
-                        Search search = new Search();
-                        search.setProduct(p);
-                        search.setMarket(m);
-                        search.setPrice(price);
-                        search.setLastUpdate(lastUpdate);
+                    Search search = new Search();
+                    search.setProduct(p);
+                    search.setMarket(m);
+                    search.setPrice(price);
+                    search.setLastUpdate(lastUpdate);
 
-                        values.add(search);
-                    }
-                    Intent i = new Intent(FindProductService.this, ProductActivity.class);
-                    i.putExtra("searchs", values);
-                    startActivity(i);
+                    values.add(search);
                 }
+                Intent i = new Intent(FindProductService.this, ProductActivity.class);
+                i.putExtra("results", values);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                startActivity(i);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

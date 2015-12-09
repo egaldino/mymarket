@@ -39,7 +39,7 @@ public class ListPlacesService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         try {
             //URL url = new URL(properties.getProperty("root.url") + "/rest/place/list");
-            URL url = new URL("http://localhost:8080/mymarket-server/rest/place/list");
+            URL url = new URL("http://pc8812.sinapad.lncc.br:8080/mymarket-server/rest/place/list");
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Accept", "application/json");

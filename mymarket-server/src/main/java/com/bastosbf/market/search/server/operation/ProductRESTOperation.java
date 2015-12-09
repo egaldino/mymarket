@@ -18,10 +18,18 @@ public class ProductRESTOperation {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Path("/list")
-	public List<Product> list(@QueryParam("market") int market) {
+	@Path("/list-by-market")
+	public List<Product> listByMarket(@QueryParam("market") int market) {
 		ProductDAO dao = new ProductDAO(HibernateConfig.factory);
-		return dao.list(market);
+		return dao.listByMarket(market);
+	}
+	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("/list-by-place")
+	public List<Product> listByPlace(@QueryParam("place") int place) {
+		ProductDAO dao = new ProductDAO(HibernateConfig.factory);
+		return dao.listByPlace(place);
 	}
 
 	@GET

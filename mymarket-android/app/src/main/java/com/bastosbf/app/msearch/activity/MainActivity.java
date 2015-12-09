@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                             spinner2 = (Spinner) findViewById(R.id.spinner2);
                             spinner2.setAdapter(null);
                             spinner2.setClickable(false);
-                            imageButton.setEnabled(false);
+                            imageButton.setClickable(false);
                         } else if (position != previewsPosition || spinner2.getAdapter() == null) {
                             Intent intent = new Intent(MainActivity.this, ListMarketsService.class);
                             intent.putExtra("place", place);
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         Market market = (Market) parent.getItemAtPosition(position);
-                        imageButton.setEnabled(market.getId() != 0);
+                        imageButton.setClickable(market.getId() != 0);
                     }
 
                     @Override
@@ -129,6 +129,19 @@ public class MainActivity extends AppCompatActivity {
         integrator.setCameraId(0); // Use a specific camera of the device
         integrator.setBeepEnabled(true);
         integrator.initiateScan(IntentIntegrator.ALL_CODE_TYPES);
+    }
+
+    public void fakescan(View view) {
+        spinner1 = (Spinner) findViewById(R.id.spinner1);
+        Place place = (Place) spinner1.getSelectedItem();
+        spinner2 = (Spinner) findViewById(R.id.spinner2);
+        Market market = (Market) spinner2.getSelectedItem();
+        Intent intent = new Intent(MainActivity.this, FindProductService.class);
+        String barcode = "000000";
+        intent.putExtra("barcode", barcode);
+        intent.putExtra("place", place);
+        intent.putExtra("market", market);
+        startService(intent);
     }
 
     @Override

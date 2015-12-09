@@ -18,11 +18,26 @@ public class ProductDAO extends GenericDAO<Product> {
 		super(factory);
 	}
 
-	public List<Product> list(int market) {
+	public List<Product> listByMarket(int market) {
 		Session session = factory.openSession();
 		session.beginTransaction();
 		Criteria criteria = session.createCriteria(MarketProduct.class).add(
 				Restrictions.eq("market.id", market));
+		List<MarketProduct> list = criteria.list();
+		List<Product> products = new ArrayList<Product>();
+		for (MarketProduct mp : list) {
+			Product product = mp.getProduct();
+			products.add(product);
+		}
+		return products;
+	}
+	
+	public List<Product> listByPlace(int place) {
+		Session session = factory.openSession();
+		session.beginTransaction();
+		Criteria criteria = session.createCriteria(MarketProduct.class)
+				.createAlias("market", "m")
+				.add(Restrictions.eq("m.place.id", place));
 		List<MarketProduct> list = criteria.list();
 		List<Product> products = new ArrayList<Product>();
 		for (MarketProduct mp : list) {
