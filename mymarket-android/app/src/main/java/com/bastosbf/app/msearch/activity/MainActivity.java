@@ -65,12 +65,12 @@ public class MainActivity extends AppCompatActivity {
         if(intent.hasExtra("places")) {
             {
                 final ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
-                final Place place = (Place) intent.getSerializableExtra("place");
-                final int previewsPosition = (int) intent.getIntExtra("position", 0);
+                Place place = (Place) intent.getSerializableExtra("place");
                 spinner1 = (Spinner) findViewById(R.id.spinner1);
                 ArrayAdapter<Place> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, places);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner1.setAdapter(adapter);
+                final int previewsPosition = adapter.getPosition(place);
                 spinner1.setSelection(previewsPosition);
                 spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
@@ -81,10 +81,9 @@ public class MainActivity extends AppCompatActivity {
                             spinner2.setAdapter(null);
                             spinner2.setClickable(false);
                             imageButton.setClickable(false);
-                        } else if (position != previewsPosition || spinner2.getAdapter() == null) {
+                        } else if (previewsPosition != position || spinner2.getAdapter() == null) {
                             Intent intent = new Intent(MainActivity.this, ListMarketsService.class);
                             intent.putExtra("place", place);
-                            intent.putExtra("position", position);
                             intent.putExtra("places", places);
                             startService(intent);
                         }
@@ -98,23 +97,15 @@ public class MainActivity extends AppCompatActivity {
             }
             if (intent.hasExtra("markets")) {
                 ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
+                Market market = (Market) intent.getSerializableExtra("market");
                 spinner2 = (Spinner) findViewById(R.id.spinner2);
                 ArrayAdapter<Market> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, markets);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner2.setAdapter(adapter);
+                int position = adapter.getPosition(market);
+                spinner2.setSelection(position);
                 spinner2.setClickable(true);
-                spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Market market = (Market) parent.getItemAtPosition(position);
-                        imageButton.setClickable(market.getId() != 0);
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
+                imageButton.setClickable(true);
             }
         } else{
             intent = new Intent(MainActivity.this, ListPlacesService.class);
@@ -132,31 +123,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void fakescan(View view) {
+        Intent intent = getIntent();
+        ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
+
         spinner1 = (Spinner) findViewById(R.id.spinner1);
         Place place = (Place) spinner1.getSelectedItem();
         spinner2 = (Spinner) findViewById(R.id.spinner2);
         Market market = (Market) spinner2.getSelectedItem();
-        Intent intent = new Intent(MainActivity.this, FindProductService.class);
-        String barcode = "000000";
-        intent.putExtra("barcode", barcode);
-        intent.putExtra("place", place);
-        intent.putExtra("market", market);
-        startService(intent);
+        Intent i = new Intent(MainActivity.this, FindProductService.class);
+        String barcode = "000001";
+        i.putExtra("barcode", barcode);
+        i.putExtra("place", place);
+        i.putExtra("market", market);
+        i.putExtra("markets", markets);
+        startService(i);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == IntentIntegrator.REQUEST_CODE) {
+            Intent intent = getIntent();
+            ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
+
             spinner1 = (Spinner) findViewById(R.id.spinner1);
             Place place = (Place) spinner1.getSelectedItem();
             spinner2 = (Spinner) findViewById(R.id.spinner2);
             Market market = (Market) spinner2.getSelectedItem();
-            Intent intent = new Intent(MainActivity.this, FindProductService.class);
+            Intent i = new Intent(MainActivity.this, FindProductService.class);
             String barcode = data.getStringExtra("SCAN_RESULT");
-            intent.putExtra("barcode", barcode);
-            intent.putExtra("place", place);
-            intent.putExtra("market", market);
-            startService(intent);
+            i.putExtra("barcode", barcode);
+            i.putExtra("place", place);
+            i.putExtra("market", market);
+            i.putExtra("markets", markets);
+            startService(i);
         }
     }
 

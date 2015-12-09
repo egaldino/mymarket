@@ -81,8 +81,15 @@ public class FindProductService extends IntentService {
 
                     values.add(search);
                 }
+                ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
+                Market market = (Market) intent.getSerializableExtra("market");
+
                 Intent i = new Intent(FindProductService.this, ProductActivity.class);
                 i.putExtra("results", values);
+                i.putExtra("barcode", barcode);
+                i.putExtra("place", place);
+                i.putExtra("markets", markets);
+                i.putExtra("market", market);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 startActivity(i);

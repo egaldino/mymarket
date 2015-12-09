@@ -26,20 +26,22 @@
             android:label="@string/title_activity_product" >
         </activity>
 
+        <activity
+            android:name=".activity.SuggestProductActivity"
+            android:label="@string/title_activity_suggest_product" >
+        </activity>
+
         <service
             android:name=".service.FindProductService"
             android:exported="false" >
         </service>
-
         <service
             android:name=".service.ListPlacesService"
             android:exported="false" >
         </service>
-
         <service
             android:name=".service.ListMarketsService"
             android:exported="false" >
         </service>
     </application>
-
 </manifest>

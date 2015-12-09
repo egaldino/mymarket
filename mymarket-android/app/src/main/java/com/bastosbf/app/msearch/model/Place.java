@@ -31,4 +31,17 @@ public class Place implements Serializable {
     public String toString() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof  Place) {
+            return ((Place) o).getName().equals(name);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

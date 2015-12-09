@@ -31,4 +31,17 @@ public class Market implements Serializable {
     public String toString() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof  Market) {
+            return ((Market) o).getName().equals(name);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

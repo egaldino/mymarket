@@ -4,7 +4,5 @@
     <string name="action_settings">Configurações</string>
     <string name="scan_msn">Escanear produto</string>
     <string name="title_activity_product">Produto</string>
-    <string name="title_activity_suggest_product">SuggestProductActivity</string>
-
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_suggest_product">Colaboração</string>
 </resources>

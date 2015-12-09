@@ -40,7 +40,6 @@ public class ListMarketsService extends IntentService {
         try {
             ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
             Place place = (Place) intent.getSerializableExtra("place");
-            int position = (int) intent.getIntExtra("position", 0);
             URL url = new URL("http://pc8812.sinapad.lncc.br:8080/mymarket-server/rest/market/list?place="+place.getId());
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -79,7 +78,6 @@ public class ListMarketsService extends IntentService {
                 i.putExtra("markets", values);
                 i.putExtra("places", places);
                 i.putExtra("place", place);
-                i.putExtra("position", position);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 startActivity(i);

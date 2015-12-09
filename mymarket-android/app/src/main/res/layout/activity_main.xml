@@ -7,7 +7,7 @@
     tools:context="com.bastosbf.app.msearch.activity.MainActivity">
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spinner1"
         android:spinnerMode="dropdown"
@@ -17,7 +17,7 @@
 
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spinner2"
         android:spinnerMode="dropdown"
@@ -35,7 +35,7 @@
         android:clickable="false" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Lista de compras"
         android:id="@+id/button"
