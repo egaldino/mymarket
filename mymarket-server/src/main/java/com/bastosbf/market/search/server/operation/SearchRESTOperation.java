@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import com.bastosbf.market.search.server.HibernateConfig;
 import com.bastosbf.market.search.server.dao.MarketProductDAO;
 import com.bastosbf.market.search.server.model.MarketProduct;
-import com.bastosbf.market.search.server.to.SearchTO;
+import com.bastosbf.market.search.server.to.Search;
 
 @Path("/search")
 public class SearchRESTOperation {
@@ -20,12 +20,12 @@ public class SearchRESTOperation {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/products")
-	public List<SearchTO> products(@QueryParam("market") int market) {
+	public List<Search> products(@QueryParam("market") int market) {
 		MarketProductDAO dao = new MarketProductDAO(HibernateConfig.factory);
 		List<MarketProduct> results = dao.getByMarket(market);
-		List<SearchTO> prices = new ArrayList<SearchTO>();
+		List<Search> prices = new ArrayList<Search>();
 		for (MarketProduct result : results) {
-			SearchTO price = new SearchTO();
+			Search price = new Search();
 			price.setProduct(result.getProduct());
 			price.setMarket(result.getMarket());
 			price.setPrice(result.getPrice());
@@ -39,12 +39,12 @@ public class SearchRESTOperation {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/prices")
-	public List<SearchTO> prices(@QueryParam("barcode") String barcode, @QueryParam("place") int place) {
+	public List<Search> prices(@QueryParam("barcode") String barcode, @QueryParam("place") int place) {
 		MarketProductDAO dao = new MarketProductDAO(HibernateConfig.factory);
 		List<MarketProduct> results = dao.getByBarcodeAndPlace(barcode, place, 3);
-		List<SearchTO> prices = new ArrayList<SearchTO>();
+		List<Search> prices = new ArrayList<Search>();
 		for (MarketProduct result : results) {
-			SearchTO price = new SearchTO();
+			Search price = new Search();
 			price.setProduct(result.getProduct());
 			price.setMarket(result.getMarket());
 			price.setPrice(result.getPrice());

@@ -12,10 +12,7 @@ import com.bastosbf.app.msearch.R;
 
 public class ProductActivity extends AppCompatActivity {
 
-    private TextView textView1;
-    private TextView textView2;
-    private TextView textView3;
-    private TextView textView4;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +45,12 @@ public class ProductActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        textView1 = (TextView) findViewById(R.id.textView1);
-        textView2 = (TextView) findViewById(R.id.textView2);
-        textView3 = (TextView) findViewById(R.id.textView3);
-        textView4 = (TextView) findViewById(R.id.textView4);
+        textView = (TextView) findViewById(R.id.textView);
 
         Intent intent = getIntent();
-
         String name = intent.getStringExtra("name");
         String brand = intent.getStringExtra("brand");
 
-        textView1.setText(name);
-        textView2.setText(brand);
+        textView.setText(name);
     }
 }

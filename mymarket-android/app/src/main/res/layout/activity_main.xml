@@ -22,19 +22,28 @@
         android:id="@+id/spinner2"
         android:spinnerMode="dropdown"
         android:layout_below="@+id/spinner1"
-        android:layout_centerHorizontal="true" />
+        android:clickable="false" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/barcode"
+        android:onClick="scan"/>
 
     <Button
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@drawable/scan_button"
-        android:id="@+id/button3"
-        android:onClick="scan"
-        android:text="Escanear Código de Barras"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lista de compras"
+        android:id="@+id/button"
+        android:layout_below="@+id/imageButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="45dp"
+        android:layout_alignRight="@+id/spinner2"
+        android:layout_alignEnd="@+id/spinner2" />
 
 
 </RelativeLayout>

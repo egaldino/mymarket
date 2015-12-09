@@ -38,8 +38,10 @@ public class ListMarketsService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         try {
+            ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
             Place place = (Place) intent.getSerializableExtra("place");
-            URL url = new URL("http://pc8812.sinapad.lncc.br:8080/mymarket-server/rest/market/list?place="+place.getId());
+            int position = (int) intent.getIntExtra("position", 0);
+            URL url = new URL("http://localhost:8080/mymarket-server/rest/market/list?place="+place.getId());
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Accept", "application/json");
@@ -75,8 +77,9 @@ public class ListMarketsService extends IntentService {
                 }
                 Intent i = new Intent(ListMarketsService.this, MainActivity.class);
                 i.putExtra("markets", values);
+                i.putExtra("places", places);
                 i.putExtra("place", place);
-                //i.putExtra("places", places);
+                i.putExtra("position", position);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 startActivity(i);

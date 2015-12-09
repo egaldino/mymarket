@@ -2,13 +2,14 @@ package com.bastosbf.market.search.server.to;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.bastosbf.market.search.server.model.Market;
 import com.bastosbf.market.search.server.model.Product;
 
 @XmlRootElement
-public class SearchTO {
+public class Search {
 	private Product product;
 	private Market market;
 	private Double price;
@@ -38,6 +39,7 @@ public class SearchTO {
 		this.price = price;
 	}
 
+	@XmlElement(name = "last-update")
 	public Date getLastUpdate() {
 		return lastUpdate;
 	}
