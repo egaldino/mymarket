@@ -58,6 +58,7 @@ public class SuggestProductService extends IntentService {
             i.putExtra("markets", markets);
             i.putExtra("place", place);
             i.putExtra("market", market);
+            i.putExtra("msn", "Produto adicionado com sucesso!");
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             startActivity(i);

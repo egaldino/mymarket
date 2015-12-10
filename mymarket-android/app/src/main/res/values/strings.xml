@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">MyMarket</string>
-    <string name="title_activity_main">MyMarket</string>
+    <string name="app_name">Meu Mercado</string>
+    <string name="title_activity_main">Meu Mercado</string>
     <string name="scan_msn">Escanear produto</string>
     <string name="title_activity_product">Produto</string>
     <string name="title_activity_suggest_product">Colaboração</string>

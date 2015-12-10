@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.bastosbf.app.msearch.R;
 import com.bastosbf.app.msearch.model.Market;
@@ -65,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Intent intent = getIntent();
+        if(intent.hasExtra("msn")) {
+            String msn = intent.getStringExtra("msn");
+            Toast.makeText(MainActivity.this, msn, Toast.LENGTH_SHORT).show();
+        }
+
         imageButton = (ImageButton) findViewById(R.id.imageButton);
         if(intent.hasExtra("places")) {
             {
@@ -149,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         spinner2 = (Spinner) findViewById(R.id.spinner2);
         Market market = (Market) spinner2.getSelectedItem();
         Intent i = new Intent(MainActivity.this, FindProductService.class);
-        String barcode = "000000";
+        String barcode = "7896081805107";
         i.putExtra("barcode", barcode);
         i.putExtra("places", places);
         i.putExtra("markets", markets);
@@ -167,6 +173,10 @@ public class MainActivity extends AppCompatActivity {
         integrator.setCameraId(0); // Use a specific camera of the device
         integrator.setBeepEnabled(true);
         integrator.initiateScan(IntentIntegrator.ALL_CODE_TYPES);
+    }
+
+    public void list(View view) {
+        Toast.makeText(MainActivity.this, "Essa funcionalidade estará funcionando já já!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -192,5 +202,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
 
+    }
 }

@@ -30,7 +30,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:src="@drawable/barcode"
-        android:onClick="fakescan"
+        android:onClick="scan"
         android:clickable="false" />
 
     <Button
@@ -43,10 +43,12 @@
         android:onClick="suggestMarket" />
 
     <Button
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Lista de compras"
         android:id="@+id/button2"
-        android:layout_below="@+id/button1" />
+        android:layout_below="@+id/button1"
+        android:onClick="list"/>
 
 </RelativeLayout>

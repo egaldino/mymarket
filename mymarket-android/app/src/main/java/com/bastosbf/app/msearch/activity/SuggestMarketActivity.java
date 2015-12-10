@@ -7,12 +7,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.bastosbf.app.msearch.R;
 import com.bastosbf.app.msearch.model.Market;
 import com.bastosbf.app.msearch.model.Place;
 import com.bastosbf.app.msearch.service.SuggestMarketService;
 import com.bastosbf.app.msearch.service.SuggestProductService;
+import com.bastosbf.app.msearch.utils.URLUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,11 +66,11 @@ public class SuggestMarketActivity extends AppCompatActivity {
         ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
         Place place = (Place) intent.getSerializableExtra("place");
 
-        String name = String.valueOf(editText1.getText());
-        String address = String.valueOf(editText2.getText());
+        String name = URLUtils.removeEmptySpaces(String.valueOf(editText1.getText()));
+        String address = URLUtils.removeEmptySpaces(String.valueOf(editText2.getText()));
 
         if(name.isEmpty() || address.isEmpty()) {
-            //alert
+            Toast.makeText(SuggestMarketActivity.this, "Digite o nome e o endereço do mercado!", Toast.LENGTH_LONG).show();
             return;
         }
 

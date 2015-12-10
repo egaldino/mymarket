@@ -11,12 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bastosbf.app.msearch.R;
 import com.bastosbf.app.msearch.model.Market;
 import com.bastosbf.app.msearch.model.Place;
 import com.bastosbf.app.msearch.service.SuggestPriceService;
 import com.bastosbf.app.msearch.service.SuggestProductService;
+import com.bastosbf.app.msearch.utils.URLUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -139,13 +141,18 @@ public class SuggestProductActivity extends AppCompatActivity {
         Place place = (Place) intent.getSerializableExtra("place");
         Market market = (Market) spinner.getSelectedItem();
         if(market.getId() == 0) {
-            //alert saying to select a market
+            Toast.makeText(SuggestProductActivity.this, "Selecione o mercado!", Toast.LENGTH_LONG).show();
             return;
         }
         String barcode = String.valueOf(editText1.getText());
-        String name = String.valueOf(editText2.getText());
-        String brand = String.valueOf(editText3.getText());
+        String name = URLUtils.removeEmptySpaces(String.valueOf(editText2.getText()));
+        String brand = URLUtils.removeEmptySpaces(String.valueOf(editText3.getText()));
         String price = String.valueOf(editText4.getText());
+
+        if(name.isEmpty() || brand.isEmpty() || price.isEmpty()) {
+            Toast.makeText(SuggestProductActivity.this, "Digite nome, marca e preço do produto!", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         Intent i = new Intent(SuggestProductActivity.this, SuggestProductService.class);
         i.putExtra("places", places);
@@ -175,11 +182,16 @@ public class SuggestProductActivity extends AppCompatActivity {
         Place place = (Place) intent.getSerializableExtra("place");
         Market market = (Market) spinner.getSelectedItem();
         if(market.getId() == 0) {
-            //alert saying to select a market
+            Toast.makeText(SuggestProductActivity.this, "Selecione o mercado!", Toast.LENGTH_LONG).show();
             return;
         }
         String barcode = String.valueOf(editText1.getText());
         String price = String.valueOf(editText4.getText());
+
+        if(price.isEmpty()) {
+            Toast.makeText(SuggestProductActivity.this, "Digite o preço do produto!", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         Intent i = new Intent(SuggestProductActivity.this, SuggestPriceService.class);
         i.putExtra("places", places);
