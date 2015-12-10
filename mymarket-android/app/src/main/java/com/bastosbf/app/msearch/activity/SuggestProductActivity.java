@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -14,8 +15,13 @@ import android.widget.TextView;
 import com.bastosbf.app.msearch.R;
 import com.bastosbf.app.msearch.model.Market;
 import com.bastosbf.app.msearch.model.Place;
+import com.bastosbf.app.msearch.service.SuggestPriceService;
+import com.bastosbf.app.msearch.service.SuggestProductService;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class SuggestProductActivity extends AppCompatActivity {
 
@@ -25,10 +31,21 @@ public class SuggestProductActivity extends AppCompatActivity {
     private EditText editText2;
     private EditText editText3;
     private EditText editText4;
+    private Button button;
+    private String rootURL;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            InputStream is = getBaseContext().getAssets().open("mymarket.properties");
+            Properties properties = new Properties();
+            properties.load(is);
+            rootURL = properties.getProperty("root.url");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setContentView(R.layout.activity_suggest_product);
     }
 
@@ -45,12 +62,6 @@ public class SuggestProductActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -63,12 +74,13 @@ public class SuggestProductActivity extends AppCompatActivity {
         editText1 = (EditText) findViewById(R.id.editText1);
         editText2 = (EditText) findViewById(R.id.editText2);
         editText3 = (EditText) findViewById(R.id.editText3);
-        editText4 = (EditText) findViewById(R.id.editText4);
+        button = (Button) findViewById(R.id.button);
 
         Intent intent = getIntent();
+        ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
+        ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
         Place place = (Place) intent.getSerializableExtra("place");
         Market market = (Market) intent.getSerializableExtra("market");
-        ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
 
         textView.setText(place.getName());
 
@@ -93,13 +105,91 @@ public class SuggestProductActivity extends AppCompatActivity {
             editText3.setText(productBrand);
             editText3.setEnabled(false);
         }
+
+        if(intent.hasExtra("productName") && intent.hasExtra("productBrand")) {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    suggestPrice(v);
+                }
+            });
+        } else {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    suggestProduct(v);
+                }
+            });
+        }
     }
 
     public void suggestProduct(View view) {
+        spinner = (Spinner) findViewById(R.id.spinner);
+        editText1 = (EditText) findViewById(R.id.editText1);
+        editText2 = (EditText) findViewById(R.id.editText2);
+        editText3 = (EditText) findViewById(R.id.editText3);
+        editText4 = (EditText) findViewById(R.id.editText4);
+        button = (Button) findViewById(R.id.button);
+        //to avoid double clicks
+        button.setEnabled(false);
 
+        Intent intent = getIntent();
+        ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
+        ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
+        Place place = (Place) intent.getSerializableExtra("place");
+        Market market = (Market) spinner.getSelectedItem();
+        if(market.getId() == 0) {
+            //alert saying to select a market
+            return;
+        }
+        String barcode = String.valueOf(editText1.getText());
+        String name = String.valueOf(editText2.getText());
+        String brand = String.valueOf(editText3.getText());
+        String price = String.valueOf(editText4.getText());
+
+        Intent i = new Intent(SuggestProductActivity.this, SuggestProductService.class);
+        i.putExtra("places", places);
+        i.putExtra("markets", markets);
+        i.putExtra("place", place);
+        i.putExtra("market", market);
+        i.putExtra("barcode", barcode);
+        i.putExtra("name", name);
+        i.putExtra("brand", brand);
+        i.putExtra("price", price);
+        i.putExtra("root-url", rootURL);
+
+        startService(i);
     }
 
     public void suggestPrice(View view) {
+        spinner = (Spinner) findViewById(R.id.spinner);
+        editText1 = (EditText) findViewById(R.id.editText1);
+        editText4 = (EditText) findViewById(R.id.editText4);
+        button = (Button) findViewById(R.id.button);
+        //to avoid double clicks
+        button.setEnabled(false);
 
+        Intent intent = getIntent();
+        ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
+        ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
+        Place place = (Place) intent.getSerializableExtra("place");
+        Market market = (Market) spinner.getSelectedItem();
+        if(market.getId() == 0) {
+            //alert saying to select a market
+            return;
+        }
+        String barcode = String.valueOf(editText1.getText());
+        String price = String.valueOf(editText4.getText());
+
+        Intent i = new Intent(SuggestProductActivity.this, SuggestPriceService.class);
+        i.putExtra("places", places);
+        i.putExtra("markets", markets);
+        i.putExtra("place", place);
+        i.putExtra("market", market);
+        i.putExtra("barcode", barcode);
+        i.putExtra("price", price);
+        i.putExtra("root-url", rootURL);
+
+        startService(i);
     }
 }

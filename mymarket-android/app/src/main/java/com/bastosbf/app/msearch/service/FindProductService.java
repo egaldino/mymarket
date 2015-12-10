@@ -38,7 +38,7 @@ public class FindProductService extends IntentService {
         try {
             String barcode = intent.getStringExtra("barcode");
             Place place = (Place) intent.getSerializableExtra("place");
-            URL url = new URL("http://pc8812.sinapad.lncc.br:8080/mymarket-server/rest/search/prices?barcode="+barcode + "&place="+place.getId());
+            URL url = new URL(intent.getStringExtra("root-url") + "/rest/search/prices?barcode="+barcode + "&place="+place.getId());
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Accept", "application/json");
@@ -81,14 +81,16 @@ public class FindProductService extends IntentService {
 
                     values.add(search);
                 }
+                ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
                 ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
                 Market market = (Market) intent.getSerializableExtra("market");
 
                 Intent i = new Intent(FindProductService.this, ProductActivity.class);
                 i.putExtra("results", values);
                 i.putExtra("barcode", barcode);
-                i.putExtra("place", place);
+                i.putExtra("places", places);
                 i.putExtra("markets", markets);
+                i.putExtra("place", place);
                 i.putExtra("market", market);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

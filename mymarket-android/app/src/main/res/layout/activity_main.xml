@@ -15,7 +15,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-
     <Spinner
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -35,16 +34,19 @@
         android:clickable="false" />
 
     <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Adicionar Mercado"
+        android:id="@+id/button1"
+        android:layout_below="@+id/imageButton"
+        android:onClick="suggestMarket" />
+
+    <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Lista de compras"
-        android:id="@+id/button"
-        android:layout_below="@+id/imageButton"
-        android:layout_marginTop="45dp"
-        android:layout_alignRight="@+id/spinner2"
-        android:layout_alignEnd="@+id/spinner2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
+        android:id="@+id/button2"
+        android:layout_below="@+id/button1" />
 
 </RelativeLayout>

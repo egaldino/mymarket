@@ -57,12 +57,6 @@ public class ProductActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -89,15 +83,18 @@ public class ProductActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = getIntent();
                     String barcode = String.valueOf(textView2.getText());
+                    ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
+                    ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
                     Place place = (Place) intent.getSerializableExtra("place");
                     Market market = (Market) intent.getSerializableExtra("market");
-                    ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
 
                     Intent i = new Intent(ProductActivity.this, SuggestProductActivity.class);
                     i.putExtra("barcode", barcode);
+                    i.putExtra("places", places);
+                    i.putExtra("markets", markets);
                     i.putExtra("place", place);
                     i.putExtra("market", market);
-                    i.putExtra("markets", markets);
+
                     startActivity(i);
                 }
             });
@@ -137,15 +134,17 @@ public class ProductActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = getIntent();
                     String barcode = String.valueOf(textView2.getText());
+                    ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
+                    ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
                     Place place = (Place) intent.getSerializableExtra("place");
                     Market market = (Market) intent.getSerializableExtra("market");
-                    ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
 
                     Intent i = new Intent(ProductActivity.this, SuggestProductActivity.class);
                     i.putExtra("barcode", barcode);
+                    i.putExtra("places", places);
+                    i.putExtra("markets", markets);
                     i.putExtra("place", place);
                     i.putExtra("market", market);
-                    i.putExtra("markets", markets);
                     i.putExtra("productName", productName);
                     i.putExtra("productBrand", productBrand);
 

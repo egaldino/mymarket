@@ -25,7 +25,6 @@
             android:name=".activity.ProductActivity"
             android:label="@string/title_activity_product" >
         </activity>
-
         <activity
             android:name=".activity.SuggestProductActivity"
             android:label="@string/title_activity_suggest_product" >
@@ -43,5 +42,23 @@
             android:name=".service.ListMarketsService"
             android:exported="false" >
         </service>
+        <service
+            android:name=".service.SuggestMarketService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name=".service.SuggestProductService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name=".service.SuggestPriceService"
+            android:exported="false" >
+        </service>
+
+        <activity
+            android:name=".activity.SuggestMarketActivity"
+            android:label="@string/title_activity_market" >
+        </activity>
     </application>
+
 </manifest>

@@ -40,7 +40,7 @@ public class ListMarketsService extends IntentService {
         try {
             ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
             Place place = (Place) intent.getSerializableExtra("place");
-            URL url = new URL("http://pc8812.sinapad.lncc.br:8080/mymarket-server/rest/market/list?place="+place.getId());
+            URL url = new URL(intent.getStringExtra("root-url") + "/rest/market/list?place="+place.getId());
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Accept", "application/json");
