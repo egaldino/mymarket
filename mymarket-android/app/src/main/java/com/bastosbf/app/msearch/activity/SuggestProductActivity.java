@@ -141,7 +141,7 @@ public class SuggestProductActivity extends AppCompatActivity {
         Place place = (Place) intent.getSerializableExtra("place");
         Market market = (Market) spinner.getSelectedItem();
         if(market.getId() == 0) {
-            Toast.makeText(SuggestProductActivity.this, "Selecione o mercado!", Toast.LENGTH_LONG).show();
+            Toast.makeText(SuggestProductActivity.this, getResources().getString(R.string.market_error_msn_activity_suggest_product), Toast.LENGTH_LONG).show();
             return;
         }
         String barcode = String.valueOf(editText1.getText());
@@ -150,7 +150,7 @@ public class SuggestProductActivity extends AppCompatActivity {
         String price = String.valueOf(editText4.getText());
 
         if(name.isEmpty() || brand.isEmpty() || price.isEmpty()) {
-            Toast.makeText(SuggestProductActivity.this, "Digite nome, marca e preço do produto!", Toast.LENGTH_LONG).show();
+            Toast.makeText(SuggestProductActivity.this, getResources().getString(R.string.fields_error_msn_activity_suggest_product), Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -182,14 +182,14 @@ public class SuggestProductActivity extends AppCompatActivity {
         Place place = (Place) intent.getSerializableExtra("place");
         Market market = (Market) spinner.getSelectedItem();
         if(market.getId() == 0) {
-            Toast.makeText(SuggestProductActivity.this, "Selecione o mercado!", Toast.LENGTH_LONG).show();
+            Toast.makeText(SuggestProductActivity.this, getResources().getString(R.string.market_error_msn_activity_suggest_product), Toast.LENGTH_LONG).show();
             return;
         }
         String barcode = String.valueOf(editText1.getText());
         String price = String.valueOf(editText4.getText());
 
         if(price.isEmpty()) {
-            Toast.makeText(SuggestProductActivity.this, "Digite o preço do produto!", Toast.LENGTH_LONG).show();
+            Toast.makeText(SuggestProductActivity.this, getResources().getString(R.string.price_error_msn_activity_suggest_product), Toast.LENGTH_LONG).show();
             return;
         }
 

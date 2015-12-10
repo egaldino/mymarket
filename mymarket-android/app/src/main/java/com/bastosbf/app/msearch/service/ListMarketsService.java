@@ -3,6 +3,7 @@ package com.bastosbf.app.msearch.service;
 import android.app.IntentService;
 import android.content.Intent;
 
+import com.bastosbf.app.msearch.R;
 import com.bastosbf.app.msearch.activity.MainActivity;
 import com.bastosbf.app.msearch.model.Market;
 import com.bastosbf.app.msearch.model.Place;
@@ -58,7 +59,7 @@ public class ListMarketsService extends IntentService {
                 {
                     Market m = new Market();
                     m.setId(0);
-                    m.setName("Selecione o mercado...");
+                    m.setName(getResources().getString(R.string.select_market_service_list_market));
                     values.add(m);
                 }
                 JSONArray markets = new JSONArray(response);

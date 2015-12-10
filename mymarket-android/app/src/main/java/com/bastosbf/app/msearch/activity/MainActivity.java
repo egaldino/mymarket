@@ -169,14 +169,14 @@ public class MainActivity extends AppCompatActivity {
     public void scan(View view) {
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-        integrator.setPrompt(getResources().getString(R.string.scan_msn));
+        integrator.setPrompt(getResources().getString(R.string.scan_msn_activity_main));
         integrator.setCameraId(0); // Use a specific camera of the device
         integrator.setBeepEnabled(true);
         integrator.initiateScan(IntentIntegrator.ALL_CODE_TYPES);
     }
 
     public void list(View view) {
-        Toast.makeText(MainActivity.this, "Essa funcionalidade estará funcionando já já!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, getResources().getString(R.string.list_msn_activity_main), Toast.LENGTH_SHORT).show();
     }
 
     @Override

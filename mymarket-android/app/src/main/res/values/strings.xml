@@ -1,8 +1,43 @@
 <resources>
-    <string name="app_name">Meu Mercado</string>
-    <string name="title_activity_main">Meu Mercado</string>
-    <string name="scan_msn">Escanear produto</string>
-    <string name="title_activity_product">Produto</string>
-    <string name="title_activity_suggest_product">Colaboração</string>
-    <string name="title_activity_market">Mercado</string>
+    <string name="app_name">My Market</string>
+
+    <string name="title_activity_main">My Market</string>
+    <string name="scan_msn_activity_main">Scan product</string>
+    <string name="list_msn_activity_main">This feature will be working soon!</string>
+    <string name="cart_activity_main">Cart</string>
+    <string name="suggest_market_activity_main">Add market</string>
+
+    <string name="title_activity_product">Product</string>
+    <string name="not_found_activity_product">Product not found!</string>
+    <string name="add_activity_product">Add product</string>
+    <string name="currency_activity_product">$</string>
+    <string name="last_update_activity_product">Last update</string>
+    <string name="update_activity_product">Update price</string>
+
+    <string name="title_activity_suggest_market">Market</string>
+
+    <string name="send_activity_suggest_market">Send</string>
+    <string name="label_name_activity_suggest_market">Name</string>
+    <string name="label_address_activity_suggest_market">Address</string>
+    <string name="error_msn_activity_suggest_market">Inform the name and the address of the market!</string>
+
+    <string name="title_activity_suggest_product">Collaboration</string>
+    <string name="send_activity_suggest_product">Send</string>
+    <string name="label_price_activity_suggest_product">Price</string>
+    <string name="label_brand_activity_suggest_product">Brand</string>
+    <string name="label_name_activity_suggest_product">Name</string>
+    <string name="market_error_msn_activity_suggest_product">Select the market!</string>
+    <string name="fields_error_msn_activity_suggest_product">Inform the name, brand and the price of the product!</string>
+    <string name="price_error_msn_activity_suggest_product">Inform the price of the product!</string>
+
+    <string name="select_market_service_list_market">Select the market...</string>
+
+    <string name="select_place_service_list_places">Select the location...</string>
+
+    <string name="msn_service_suggest_market">Market successfully added!</string>
+
+    <string name="msn_service_suggest_product">Product successfully added!</string>
+
+    <string name="msn_service_suggest_price">Price of the product successfully updated!</string>
+
 </resources>

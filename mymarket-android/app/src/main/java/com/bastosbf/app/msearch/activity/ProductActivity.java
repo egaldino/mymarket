@@ -73,11 +73,11 @@ public class ProductActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ArrayList<Search> results = (ArrayList<Search>) intent.getSerializableExtra("results");
         if(results.isEmpty()) {
-            textView1.setText("Produto não encontrado!");
+            textView1.setText(getResources().getString(R.string.not_found_activity_product));
             String barcode = intent.getStringExtra("barcode");
             textView2.setText(barcode);
             textView2.setVisibility(View.INVISIBLE);
-            button.setText("Adicionar produto");
+            button.setText(getResources().getString(R.string.add_activity_product));
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -110,8 +110,8 @@ public class ProductActivity extends AppCompatActivity {
                 Market market = result.getMarket();
                 Date lastUpdate = result.getLastUpdate();
                 Map<String, Object> map = new HashMap<>();
-                map.put("info", market.getName() + " - R$ " + result.getPrice());
-                map.put("date", "Última atualização: " + sdf.format(lastUpdate));
+                map.put("info", market.getName() + " - " + getResources().getString(R.string.currency_activity_product) + " " + result.getPrice());
+                map.put("date", getResources().getString(R.string.last_update_activity_product) + ": " + sdf.format(lastUpdate));
                 list.add(map);
             }
             BaseAdapter adapter = new SimpleAdapter(this, list,
@@ -126,7 +126,7 @@ public class ProductActivity extends AppCompatActivity {
             listView.setDividerHeight(height / 35);
             listView.setBackgroundColor(getResources().getColor(R.color.white));
             listView.setAdapter(adapter);
-            button.setText("Atualizar preço");
+            button.setText(getResources().getString(R.string.update_activity_product));
             final String productName = product.getName();
             final String productBrand = product.getBrand();
             button.setOnClickListener(new View.OnClickListener() {

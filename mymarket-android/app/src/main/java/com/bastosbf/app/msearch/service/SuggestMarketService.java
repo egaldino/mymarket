@@ -3,6 +3,7 @@ package com.bastosbf.app.msearch.service;
 import android.app.IntentService;
 import android.content.Intent;
 
+import com.bastosbf.app.msearch.R;
 import com.bastosbf.app.msearch.activity.MainActivity;
 import com.bastosbf.app.msearch.model.Market;
 import com.bastosbf.app.msearch.model.Place;
@@ -45,7 +46,7 @@ public class SuggestMarketService extends IntentService {
             i.putExtra("places", places);
             i.putExtra("markets", markets);
             i.putExtra("place", place);
-            i.putExtra("msn", "Mercado adicionado com sucesso!");
+            i.putExtra("msn", getResources().getString(R.string.msn_service_suggest_market));
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             startActivity(i);

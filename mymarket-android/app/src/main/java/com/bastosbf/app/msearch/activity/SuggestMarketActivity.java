@@ -70,7 +70,7 @@ public class SuggestMarketActivity extends AppCompatActivity {
         String address = URLUtils.removeEmptySpaces(String.valueOf(editText2.getText()));
 
         if(name.isEmpty() || address.isEmpty()) {
-            Toast.makeText(SuggestMarketActivity.this, "Digite o nome e o endereço do mercado!", Toast.LENGTH_LONG).show();
+            Toast.makeText(SuggestMarketActivity.this, getResources().getString(R.string.error_msn_activity_suggest_market), Toast.LENGTH_LONG).show();
             return;
         }
 

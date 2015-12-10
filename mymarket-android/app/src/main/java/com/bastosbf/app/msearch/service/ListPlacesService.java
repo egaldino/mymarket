@@ -3,6 +3,7 @@ package com.bastosbf.app.msearch.service;
 import android.app.IntentService;
 import android.content.Intent;
 
+import com.bastosbf.app.msearch.R;
 import com.bastosbf.app.msearch.activity.MainActivity;
 import com.bastosbf.app.msearch.model.Place;
 
@@ -56,7 +57,7 @@ public class ListPlacesService extends IntentService {
                 {
                     Place p = new Place();
                     p.setId(0);
-                    p.setName("Selecione a localização...");
+                    p.setName(getResources().getString(R.string.select_place_service_list_places));
                     values.add(p);
                 }
                 JSONArray places = new JSONArray(response);

@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Meu Mercado</string>
+
+    <string name="title_activity_main">Meu Mercado</string>
+    <string name="scan_msn_activity_main">Escanear produto</string>
+    <string name="list_msn_activity_main">Essa funcionalidade estará funcionando já já!</string>
+    <string name="cart_activity_main">Lista de compras</string>
+    <string name="suggest_market_activity_main">Adicionar mercado</string>
+
+    <string name="title_activity_product">Produto</string>
+    <string name="not_found_activity_product">Produto não encontrado!</string>
+    <string name="add_activity_product">Adicionar produto</string>
+    <string name="currency_activity_product">R$</string>
+    <string name="last_update_activity_product">Última atualização</string>
+    <string name="update_activity_product">Atualizar preço</string>
+
+    <string name="title_activity_suggest_market">Mercado</string>
+
+    <string name="send_activity_suggest_market">Enviar</string>
+    <string name="label_name_activity_suggest_market">Nome</string>
+    <string name="label_address_activity_suggest_market">Endereço</string>
+    <string name="error_msn_activity_suggest_market">Digite o nome e o endereço do mercado!</string>
+
+    <string name="title_activity_suggest_product">Colaboração</string>
+    <string name="send_activity_suggest_product">Enviar</string>
+    <string name="label_price_activity_suggest_product">Preço</string>
+    <string name="label_brand_activity_suggest_product">Marca</string>
+    <string name="label_name_activity_suggest_product">Nome</string>
+    <string name="market_error_msn_activity_suggest_product">Selecione o mercado!</string>
+    <string name="fields_error_msn_activity_suggest_product">Digite nome, marca e preço do produto!</string>
+    <string name="price_error_msn_activity_suggest_product">Digite o preço do produto!</string>
+
+    <string name="select_market_service_list_market">Selecione o mercado...</string>
+
+    <string name="select_place_service_list_places">Selecione a localização...</string>
+
+    <string name="msn_service_suggest_market">Mercado adicionado com sucesso!</string>
+
+    <string name="msn_service_suggest_product">Produto adicionado com sucesso!</string>
+
+    <string name="msn_service_suggest_price">Preço do produto atualizado com sucesso!</string>
+
+</resources>

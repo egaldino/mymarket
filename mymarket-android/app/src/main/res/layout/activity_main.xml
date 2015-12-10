@@ -37,7 +37,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Adicionar Mercado"
+        android:text="@string/suggest_market_activity_main"
         android:id="@+id/button1"
         android:layout_below="@+id/imageButton"
         android:onClick="suggestMarket" />
@@ -46,7 +46,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Lista de compras"
+        android:text="@string/cart_activity_main"
         android:id="@+id/button2"
         android:layout_below="@+id/button1"
         android:onClick="list"/>

@@ -40,7 +40,7 @@
 
         <activity
             android:name=".activity.SuggestMarketActivity"
-            android:label="@string/title_activity_market"
+            android:label="@string/title_activity_suggest_market"
             android:parentActivityName=".activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
