@@ -75,21 +75,6 @@ CREATE TABLE IF NOT EXISTS `place` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `price_suggestion`
---
-
-CREATE TABLE IF NOT EXISTS `price_suggestion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `product` varchar(255) NOT NULL,
-  `market` varchar(255) NOT NULL,
-  `price` double NOT NULL,
-  `date` date NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `product`
 --
 
@@ -99,23 +84,6 @@ CREATE TABLE IF NOT EXISTS `product` (
   `brand` varchar(255) NOT NULL,
   PRIMARY KEY (`barcode`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `product_suggestion`
---
-
-CREATE TABLE IF NOT EXISTS `product_suggestion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `market` int(11) NOT NULL,
-  `barcode` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `brand` varchar(255) NOT NULL,
-  `price` double NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

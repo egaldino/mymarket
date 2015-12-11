@@ -10,15 +10,13 @@ import javax.ws.rs.core.MediaType;
 
 import com.bastosbf.market.search.server.HibernateConfig;
 import com.bastosbf.market.search.server.dao.MarketDAO;
+import com.bastosbf.market.search.server.dao.MarketProductDAO;
 import com.bastosbf.market.search.server.dao.MarketSuggestionDAO;
-import com.bastosbf.market.search.server.dao.PriceSuggestionDAO;
 import com.bastosbf.market.search.server.dao.ProductDAO;
-import com.bastosbf.market.search.server.dao.ProductSuggestionDAO;
 import com.bastosbf.market.search.server.model.Market;
+import com.bastosbf.market.search.server.model.MarketProduct;
 import com.bastosbf.market.search.server.model.MarketSuggestion;
-import com.bastosbf.market.search.server.model.PriceSuggestion;
 import com.bastosbf.market.search.server.model.Product;
-import com.bastosbf.market.search.server.model.ProductSuggestion;
 
 @Path("/collaboration")
 public class CollaborationRESTOperation {
@@ -55,16 +53,26 @@ public class CollaborationRESTOperation {
 				product = dao.get(barcode);
 			}
 			if (product == null) {
-				ProductSuggestion suggestion = new ProductSuggestion();
-				suggestion.setMarket(m);
-				suggestion.setBarcode(barcode);
-				suggestion.setName(name);
-				suggestion.setBrand(brand);
-				suggestion.setPrice(price);
-
-				ProductSuggestionDAO dao = new ProductSuggestionDAO(
-						HibernateConfig.factory);
-				dao.add(suggestion);
+				{
+					product = new Product();
+					product.setBarcode(barcode);
+					product.setName(name);
+					product.setBrand(brand);
+					
+					ProductDAO dao = new ProductDAO(HibernateConfig.factory);
+					dao.add(product);
+				}
+				{
+					MarketProduct mp = new MarketProduct();
+					mp.setMarket(m);
+					mp.setProduct(product);
+					mp.setLastUpdate(new Date());
+					mp.setPrice(price);
+					
+					MarketProductDAO dao = new MarketProductDAO(
+							HibernateConfig.factory);
+					dao.add(mp);
+				}
 			}
 		}
 	}
@@ -87,15 +95,9 @@ public class CollaborationRESTOperation {
 				p = dao.get(product);
 			}
 			if (p != null) {
-				PriceSuggestion suggestion = new PriceSuggestion();
-				suggestion.setMarket(m);
-				suggestion.setProduct(p);
-				suggestion.setPrice(price);
-				suggestion.setDate(new Date());
-
-				PriceSuggestionDAO dao = new PriceSuggestionDAO(
+				MarketProductDAO dao = new MarketProductDAO(
 						HibernateConfig.factory);
-				dao.add(suggestion);
+				dao.updatePrice(market, product, price);
 			}
 		}
 

@@ -17,5 +17,14 @@ public class GenericDAO<E> {
 		session.getTransaction().commit();
 		session.close();
 	}
+	
+	public void update(E e) {
+		Session session = factory.openSession();
+		session.beginTransaction();
+		session.update(e);
+		session.getTransaction().commit();
+		session.close();
+	}
+
 
 }

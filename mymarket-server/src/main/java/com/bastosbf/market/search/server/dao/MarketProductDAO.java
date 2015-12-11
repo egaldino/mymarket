@@ -1,5 +1,6 @@
 package com.bastosbf.market.search.server.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -28,6 +29,22 @@ public class MarketProductDAO extends GenericDAO<MarketProduct> {
 		return list;
 	}
 	
+	public void updatePrice(int market, String barcode, double price) {
+		Session session = factory.openSession();
+		session.beginTransaction();
+		Criteria criteria = session.createCriteria(MarketProduct.class)
+				.createAlias("product", "p")
+				.createAlias("market", "m")
+				.add(Restrictions.eq("p.barcode", barcode))
+				.add(Restrictions.eq("m.id", market));
+		List<MarketProduct> list = criteria.list();
+		if(!list.isEmpty()) {
+			MarketProduct mp = list.get(0);
+			mp.setLastUpdate(new Date());
+			mp.setPrice(price);
+			update(mp);
+		}		
+	}
 	
 	public List<MarketProduct> getByBarcodeAndPlace(String barcode, int place, int maxResults) {
 		Session session = factory.openSession();
