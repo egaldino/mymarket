@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Meu Mercado</string>
 
+    <string name="loading">Carregando</string>
+
     <string name="title_activity_main">Meu Mercado</string>
     <string name="scan_msn_activity_main">Escanear produto</string>
     <string name="list_msn_activity_main">Essa funcionalidade estará funcionando já já!</string>
@@ -29,6 +31,8 @@
     <string name="market_error_msn_activity_suggest_product">Selecione o mercado!</string>
     <string name="fields_error_msn_activity_suggest_product">Digite nome, marca e preço do produto!</string>
     <string name="price_error_msn_activity_suggest_product">Digite o preço do produto!</string>
+
+    <string name="title_activity_splash_screen">Meu Mercado</string>
 
     <string name="select_market_service_list_market">Selecione o mercado...</string>
 

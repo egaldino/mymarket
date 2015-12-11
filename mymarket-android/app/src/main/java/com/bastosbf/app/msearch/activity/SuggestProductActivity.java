@@ -1,5 +1,7 @@
 package com.bastosbf.app.msearch.activity;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -193,7 +195,7 @@ public class SuggestProductActivity extends AppCompatActivity {
             return;
         }
 
-        Intent i = new Intent(SuggestProductActivity.this, SuggestPriceService.class);
+        final Intent i = new Intent(SuggestProductActivity.this, SuggestPriceService.class);
         i.putExtra("places", places);
         i.putExtra("markets", markets);
         i.putExtra("place", place);
@@ -203,5 +205,16 @@ public class SuggestProductActivity extends AppCompatActivity {
         i.putExtra("root-url", rootURL);
 
         startService(i);
+
+        ProgressDialog progress = ProgressDialog.show(SuggestProductActivity.this, getResources().getString(R.string.loading),
+                getResources().getString(R.string.loading), true);
+        progress.setCancelable(true);
+        progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                stopService(i);
+            }
+        });
+        progress.show();
     }
 }

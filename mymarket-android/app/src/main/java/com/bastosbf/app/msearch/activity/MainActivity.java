@@ -1,5 +1,7 @@
 package com.bastosbf.app.msearch.activity;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -92,11 +94,21 @@ public class MainActivity extends AppCompatActivity {
                             spinner2.setClickable(false);
                             imageButton.setClickable(false);
                         } else if (previewsPosition != position || spinner2.getAdapter() == null) {
-                            Intent i = new Intent(MainActivity.this, ListMarketsService.class);
+                            final Intent i = new Intent(MainActivity.this, ListMarketsService.class);
                             i.putExtra("place", place);
                             i.putExtra("places", places);
                             i.putExtra("root-url", rootURL);
                             startService(i);
+                            ProgressDialog progress = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.loading),
+                                    getResources().getString(R.string.loading), true);
+                            progress.setCancelable(true);
+                            progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    stopService(i);
+                                }
+                            });
+                            progress.show();
                         }
                     }
 
@@ -121,9 +133,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } else{
-            Intent i = new Intent(MainActivity.this, ListPlacesService.class);
+            final Intent i = new Intent(MainActivity.this, ListPlacesService.class);
             i.putExtra("root-url", rootURL);
             startService(i);
+            ProgressDialog progress = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.loading),
+                    getResources().getString(R.string.loading), true);
+            progress.setCancelable(true);
+            progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    stopService(i);
+                }
+            });
+            progress.show();
         }
     }
 
@@ -146,24 +168,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void fakescan(View view) {
-        Intent intent = getIntent();
-        ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
-        ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
-
-        spinner1 = (Spinner) findViewById(R.id.spinner1);
-        Place place = (Place) spinner1.getSelectedItem();
-        spinner2 = (Spinner) findViewById(R.id.spinner2);
-        Market market = (Market) spinner2.getSelectedItem();
-        Intent i = new Intent(MainActivity.this, FindProductService.class);
-        String barcode = "7896081805107";
-        i.putExtra("barcode", barcode);
-        i.putExtra("places", places);
-        i.putExtra("markets", markets);
-        i.putExtra("place", place);
-        i.putExtra("market", market);
-        i.putExtra("root-url", rootURL);
-
-        startService(i);
+        Intent i = new Intent();
+        i.putExtra("SCAN_RESULT", "000000");
+        onActivityResult(49374 ,0, i);
     }
 
     public void scan(View view) {
@@ -190,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
             Place place = (Place) spinner1.getSelectedItem();
             spinner2 = (Spinner) findViewById(R.id.spinner2);
             Market market = (Market) spinner2.getSelectedItem();
-            Intent i = new Intent(MainActivity.this, FindProductService.class);
+            final Intent i = new Intent(MainActivity.this, FindProductService.class);
             String barcode = data.getStringExtra("SCAN_RESULT");
             i.putExtra("barcode", barcode);
             i.putExtra("places", places);
@@ -199,6 +206,16 @@ public class MainActivity extends AppCompatActivity {
             i.putExtra("market", market);
             i.putExtra("root-url", rootURL);
             startService(i);
+            ProgressDialog progress = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.loading),
+                    getResources().getString(R.string.loading), true);
+            progress.setCancelable(true);
+            progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    stopService(i);
+                }
+            });
+            progress.show();
         }
     }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.bastosbf.market.search.server.model.Market;
@@ -20,7 +21,8 @@ public class MarketDAO extends GenericDAO<Market> {
 		session.beginTransaction();
 		Criteria criteria = session.createCriteria(Market.class)
 				.createAlias("place", "p")
-				.add(Restrictions.eq("p.id", place));
+				.add(Restrictions.eq("p.id", place))
+				.addOrder(Order.asc("name"));
 		List<Market> list = criteria.list();
 		return list;
 	}

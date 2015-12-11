@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.bastosbf.market.search.server.model.Place;
@@ -18,7 +19,8 @@ public class PlaceDAO extends GenericDAO<Place> {
 	public List<Place> list() {
 		Session session = factory.openSession();
 		session.beginTransaction();
-		Criteria criteria = session.createCriteria(Place.class);
+		Criteria criteria = session.createCriteria(Place.class)
+				.addOrder(Order.asc("name"));
 		List<Place> list = criteria.list();
 		return list;
 	}

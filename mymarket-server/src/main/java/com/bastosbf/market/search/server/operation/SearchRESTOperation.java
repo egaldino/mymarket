@@ -41,7 +41,7 @@ public class SearchRESTOperation {
 	@Path("/prices")
 	public List<Search> prices(@QueryParam("barcode") String barcode, @QueryParam("place") int place) {
 		MarketProductDAO dao = new MarketProductDAO(HibernateConfig.factory);
-		List<MarketProduct> results = dao.getByBarcodeAndPlace(barcode, place, 3);
+		List<MarketProduct> results = dao.getByBarcodeAndPlace(barcode, place);
 		List<Search> prices = new ArrayList<Search>();
 		for (MarketProduct result : results) {
 			Search price = new Search();

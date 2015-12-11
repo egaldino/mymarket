@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">My Market</string>
 
+    <string name="loading">Loading</string>
+
     <string name="title_activity_main">My Market</string>
     <string name="scan_msn_activity_main">Scan product</string>
     <string name="list_msn_activity_main">This feature will be working soon!</string>
@@ -30,6 +32,8 @@
     <string name="fields_error_msn_activity_suggest_product">Inform the name, brand and the price of the product!</string>
     <string name="price_error_msn_activity_suggest_product">Inform the price of the product!</string>
 
+    <string name="title_activity_splash_screen">My Market</string>
+
     <string name="select_market_service_list_market">Select the market...</string>
 
     <string name="select_place_service_list_places">Select the location...</string>
@@ -39,5 +43,6 @@
     <string name="msn_service_suggest_product">Product successfully added!</string>
 
     <string name="msn_service_suggest_price">Price of the product successfully updated!</string>
+
 
 </resources>
