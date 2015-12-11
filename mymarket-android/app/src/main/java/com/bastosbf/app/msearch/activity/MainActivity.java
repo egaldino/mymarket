@@ -197,6 +197,10 @@ public class MainActivity extends AppCompatActivity {
             Place place = (Place) spinner1.getSelectedItem();
             spinner2 = (Spinner) findViewById(R.id.spinner2);
             Market market = (Market) spinner2.getSelectedItem();
+
+            if(data == null) {
+                return;
+            }
             final Intent i = new Intent(MainActivity.this, FindProductService.class);
             String barcode = data.getStringExtra("SCAN_RESULT");
             i.putExtra("barcode", barcode);

@@ -29,6 +29,7 @@
         android:id="@+id/imageButton"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:background="@color/grey_100"
         android:src="@drawable/barcode"
         android:onClick="scan"
         android:clickable="false" />
