@@ -2,6 +2,7 @@ package com.bastosbf.app.msearch.service;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.bastosbf.app.msearch.R;
 import com.bastosbf.app.msearch.activity.MainActivity;
@@ -73,11 +74,9 @@ public class ListPlacesService extends IntentService {
 
                     values.add(p);
                 }
-                Intent i = new Intent(ListPlacesService.this, MainActivity.class);
+                Intent i = new Intent("PLACES");
                 i.putExtra("places", values);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                startActivity(i);
+                LocalBroadcastManager.getInstance(this).sendBroadcast(i);
             }
         } catch (Exception e) {
             e.printStackTrace();

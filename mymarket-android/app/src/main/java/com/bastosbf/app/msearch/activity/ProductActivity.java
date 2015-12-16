@@ -1,8 +1,14 @@
 package com.bastosbf.app.msearch.activity;
 
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -10,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -22,14 +29,19 @@ import com.bastosbf.app.msearch.model.Market;
 import com.bastosbf.app.msearch.model.Place;
 import com.bastosbf.app.msearch.model.Product;
 import com.bastosbf.app.msearch.model.Search;
+import com.bastosbf.app.msearch.service.FindProductService;
 import com.bastosbf.app.msearch.service.ListMarketsService;
+import com.bastosbf.app.msearch.service.ListPlacesService;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 public class ProductActivity extends AppCompatActivity {
 
@@ -37,11 +49,44 @@ public class ProductActivity extends AppCompatActivity {
     private TextView textView2;
     private ListView listView;
     private Button button;
+    private ProgressDialog progress;
+    private String rootURL;
+
+    private BroadcastReceiver productsReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            progress.dismiss();
+            receiveList(intent);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
+        try {
+            InputStream is = getBaseContext().getAssets().open("mymarket.properties");
+            Properties properties = new Properties();
+            properties.load(is);
+            rootURL = properties.getProperty("root.url");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Intent intent = getIntent();
+        final Intent i = new Intent(ProductActivity.this, FindProductService.class);
+        i.putExtra("place", intent.getSerializableExtra("place"));
+        i.putExtra("market", intent.getSerializableExtra("market"));
+        i.putExtra("markets", intent.getSerializableExtra("markets"));
+        i.putExtra("root-url", rootURL);
+        startService(i);
+        progress = ProgressDialog.show(ProductActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.loading), true, true);
+        progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                stopService(i);
+            }
+        });
+        LocalBroadcastManager.getInstance(this).registerReceiver((productsReceiver), new IntentFilter("PRODUCTS"));
     }
 
     @Override
@@ -60,9 +105,7 @@ public class ProductActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    protected void receiveList(Intent intent) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         textView1 = (TextView) findViewById(R.id.textView1);
@@ -70,7 +113,6 @@ public class ProductActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
         button = (Button) findViewById(R.id.button);
 
-        Intent intent = getIntent();
         ArrayList<Search> results = (ArrayList<Search>) intent.getSerializableExtra("results");
         if(results.isEmpty()) {
             textView1.setText(getResources().getString(R.string.not_found_activity_product));

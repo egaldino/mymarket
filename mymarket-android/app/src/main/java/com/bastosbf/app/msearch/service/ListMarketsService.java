@@ -2,6 +2,7 @@ package com.bastosbf.app.msearch.service;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.bastosbf.app.msearch.R;
 import com.bastosbf.app.msearch.activity.MainActivity;
@@ -39,7 +40,6 @@ public class ListMarketsService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         try {
-            ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
             Place place = (Place) intent.getSerializableExtra("place");
             URL url = new URL(intent.getStringExtra("root-url") + "/rest/market/list?place="+place.getId());
 
@@ -75,13 +75,9 @@ public class ListMarketsService extends IntentService {
 
                     values.add(m);
                 }
-                Intent i = new Intent(ListMarketsService.this, MainActivity.class);
+                Intent i = new Intent("MARKETS");
                 i.putExtra("markets", values);
-                i.putExtra("places", places);
-                i.putExtra("place", place);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                startActivity(i);
+                LocalBroadcastManager.getInstance(this).sendBroadcast(i);
             }
         } catch (Exception e) {
             e.printStackTrace();

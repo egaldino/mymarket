@@ -1,8 +1,13 @@
 package com.bastosbf.app.msearch.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,11 +32,20 @@ public class SuggestMarketActivity extends AppCompatActivity {
 
     private EditText editText1;
     private EditText editText2;
+    private ProgressDialog progress;
     private String rootURL;
+
+    private BroadcastReceiver suggestionReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            sendMessage();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_suggest_market);
         try {
             InputStream is = getBaseContext().getAssets().open("mymarket.properties");
             Properties properties = new Properties();
@@ -40,7 +54,7 @@ public class SuggestMarketActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        setContentView(R.layout.activity_suggest_market);
+        LocalBroadcastManager.getInstance(this).registerReceiver((suggestionReceiver), new IntentFilter("SUGGEST_MARKET"));
     }
 
     @Override
@@ -63,11 +77,6 @@ public class SuggestMarketActivity extends AppCompatActivity {
         editText1 = (EditText) findViewById(R.id.editText1);
         editText2 = (EditText) findViewById(R.id.editText2);
 
-        Intent intent = getIntent();
-        ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
-        ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
-        Place place = (Place) intent.getSerializableExtra("place");
-
         String name = URLUtils.removeEmptySpaces(String.valueOf(editText1.getText()));
         String address = URLUtils.removeEmptySpaces(String.valueOf(editText2.getText()));
 
@@ -79,21 +88,28 @@ public class SuggestMarketActivity extends AppCompatActivity {
         final Intent i = new Intent(SuggestMarketActivity.this, SuggestMarketService.class);
         i.putExtra("marketName", name);
         i.putExtra("marketAddress", address);
-        i.putExtra("places", places);
-        i.putExtra("markets", markets);
-        i.putExtra("place", place);
         i.putExtra("root-url", rootURL);
 
-        startService(i);
-        ProgressDialog progress = ProgressDialog.show(SuggestMarketActivity.this, getResources().getString(R.string.loading),
-                getResources().getString(R.string.loading), true);
-        progress.setCancelable(true);
+        progress = ProgressDialog.show(SuggestMarketActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.loading), true, true);
         progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
                 stopService(i);
             }
         });
-        progress.show();
+
+        startService(i);
+    }
+
+    private void sendMessage() {
+        progress.dismiss();
+        Toast.makeText(SuggestMarketActivity.this, getResources().getString(R.string.msn_service_suggest_market), Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

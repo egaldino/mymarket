@@ -1,13 +1,19 @@
 package com.bastosbf.app.msearch.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -25,18 +31,45 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class MainActivity extends AppCompatActivity {
 
     private Spinner spinner1;
     private Spinner spinner2;
+    private ProgressDialog placesProgress;
+    private ProgressDialog marketsProgress;
     private ImageButton imageButton;
     private String rootURL;
+
+
+    private BroadcastReceiver placesReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
+            ArrayAdapter<Place> adapter = new ArrayAdapter<Place>(MainActivity.this, android.R.layout.simple_spinner_item, places);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner1.setAdapter(adapter);
+            placesProgress.dismiss();
+        }
+    };
+    private BroadcastReceiver marketsReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
+            ArrayAdapter<Market> adapter = new ArrayAdapter<Market>(MainActivity.this, android.R.layout.simple_spinner_item, markets);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner2.setAdapter(adapter);
+            marketsProgress.dismiss();
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         try {
             InputStream is = getBaseContext().getAssets().open("mymarket.properties");
             Properties properties = new Properties();
@@ -45,7 +78,61 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        setContentView(R.layout.activity_main);
+
+        final Intent i = new Intent(MainActivity.this, ListPlacesService.class);
+        i.putExtra("root-url", rootURL);
+        startService(i);
+        placesProgress = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.loading), true, true);
+        placesProgress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                stopService(i);
+            }
+        });
+
+        spinner1 = (Spinner) findViewById(R.id.spinner1);
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Place place = (Place) parent.getItemAtPosition(position);
+                if (place.getId() == 0) {
+                    spinner2 = (Spinner) findViewById(R.id.spinner2);
+                    spinner2.setAdapter(null);
+                } else {
+                    final Intent i = new Intent(MainActivity.this, ListMarketsService.class);
+                    i.putExtra("place", place);
+                    i.putExtra("root-url", rootURL);
+                    startService(i);
+                    marketsProgress = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.loading), true, true);
+                    marketsProgress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            stopService(i);
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner2 = (Spinner) findViewById(R.id.spinner2);
+        imageButton = (ImageButton) findViewById(R.id.imageButton);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Place place = (Place) spinner1.getSelectedItem();
+                if(place == null || place.getId() == 0) {
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.selec_place_msn_activity_main), Toast.LENGTH_SHORT).show();
+                } else {
+                    fakescan(v);
+                    //scan(v);
+                }
+            }
+        });
+        LocalBroadcastManager.getInstance(this).registerReceiver((placesReceiver), new IntentFilter("PLACES"));
+        LocalBroadcastManager.getInstance(this).registerReceiver((marketsReceiver), new IntentFilter("MARKETS"));
     }
 
     @Override
@@ -67,110 +154,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Intent intent = getIntent();
-        if(intent.hasExtra("msn")) {
-            String msn = intent.getStringExtra("msn");
-            Toast.makeText(MainActivity.this, msn, Toast.LENGTH_SHORT).show();
-        }
-
-        imageButton = (ImageButton) findViewById(R.id.imageButton);
-        if(intent.hasExtra("places")) {
-            {
-                final ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
-                Place place = (Place) intent.getSerializableExtra("place");
-                spinner1 = (Spinner) findViewById(R.id.spinner1);
-                ArrayAdapter<Place> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, places);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner1.setAdapter(adapter);
-                final int previewsPosition = adapter.getPosition(place);
-                spinner1.setSelection(previewsPosition);
-                spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Place place = (Place) parent.getItemAtPosition(position);
-                        if (place.getId() == 0) {
-                            spinner2 = (Spinner) findViewById(R.id.spinner2);
-                            spinner2.setAdapter(null);
-                            spinner2.setClickable(false);
-                            imageButton.setClickable(false);
-                        } else if (previewsPosition != position || spinner2.getAdapter() == null) {
-                            final Intent i = new Intent(MainActivity.this, ListMarketsService.class);
-                            i.putExtra("place", place);
-                            i.putExtra("places", places);
-                            i.putExtra("root-url", rootURL);
-                            startService(i);
-                            ProgressDialog progress = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.loading),
-                                    getResources().getString(R.string.loading), true);
-                            progress.setCancelable(true);
-                            progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                @Override
-                                public void onCancel(DialogInterface dialog) {
-                                    stopService(i);
-                                }
-                            });
-                            progress.show();
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-            }
-            if (intent.hasExtra("markets")) {
-                ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
-                if(markets != null) {
-                    Market market = (Market) intent.getSerializableExtra("market");
-                    spinner2 = (Spinner) findViewById(R.id.spinner2);
-                    ArrayAdapter<Market> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, markets);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner2.setAdapter(adapter);
-                    int position = adapter.getPosition(market);
-                    spinner2.setSelection(position);
-                    spinner2.setClickable(true);
-                    imageButton.setClickable(true);
-                }
-            }
-        } else{
-            final Intent i = new Intent(MainActivity.this, ListPlacesService.class);
-            i.putExtra("root-url", rootURL);
-            startService(i);
-            ProgressDialog progress = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.loading),
-                    getResources().getString(R.string.loading), true);
-            progress.setCancelable(true);
-            progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    stopService(i);
-                }
-            });
-            progress.show();
-        }
     }
 
     public void suggestMarket(View view) {
-        Intent intent = getIntent();
-        ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
-        ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
-
-        spinner1 = (Spinner) findViewById(R.id.spinner1);
-        Place place = (Place) spinner1.getSelectedItem();
-
         Intent i = new Intent(MainActivity.this, SuggestMarketActivity.class);
-        i.putExtra("places", places);
-        i.putExtra("markets", markets);
-        i.putExtra("place", place);
-        i.putExtra("root-url", rootURL);
-
         startActivity(i);
-
     }
 
     public void fakescan(View view) {
         Intent i = new Intent();
         i.putExtra("SCAN_RESULT", "000000");
-        onActivityResult(49374 ,0, i);
+        onActivityResult(49374, 0, i);
     }
 
     public void scan(View view) {
@@ -189,38 +183,33 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == IntentIntegrator.REQUEST_CODE) {
-            Intent intent = getIntent();
-            ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
-            ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
-
-            spinner1 = (Spinner) findViewById(R.id.spinner1);
-            Place place = (Place) spinner1.getSelectedItem();
-            spinner2 = (Spinner) findViewById(R.id.spinner2);
-            Market market = (Market) spinner2.getSelectedItem();
-
             if(data == null) {
                 return;
             }
-            final Intent i = new Intent(MainActivity.this, FindProductService.class);
+            Intent intent = getIntent();
+            Place place = (Place) spinner1.getSelectedItem();
+            Market market = (Market) spinner2.getSelectedItem();
+            ArrayList<Market> markets = (ArrayList) getAllItems(spinner2);
+            Intent i = new Intent(MainActivity.this, ProductActivity.class);
             String barcode = data.getStringExtra("SCAN_RESULT");
             i.putExtra("barcode", barcode);
-            i.putExtra("places", places);
-            i.putExtra("markets", markets);
             i.putExtra("place", place);
             i.putExtra("market", market);
-            i.putExtra("root-url", rootURL);
-            startService(i);
-            ProgressDialog progress = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.loading),
-                    getResources().getString(R.string.loading), true);
-            progress.setCancelable(true);
-            progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    stopService(i);
-                }
-            });
-            progress.show();
+            i.putExtra("markets", markets);
+
+            startActivity(i);
         }
+    }
+
+    public List<Object> getAllItems(Spinner spinner) {
+        Adapter adapter = spinner.getAdapter();
+        int n = adapter.getCount();
+        List<Object> items = new ArrayList<Object>(n);
+        for (int i = 0; i < n; i++) {
+            Object item = adapter.getItem(i);
+            items.add(item);
+        }
+        return items;
     }
 
     @Override

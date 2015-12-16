@@ -2,6 +2,7 @@ package com.bastosbf.app.msearch.service;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.bastosbf.app.msearch.activity.ProductActivity;
 import com.bastosbf.app.msearch.model.Market;
@@ -81,20 +82,17 @@ public class FindProductService extends IntentService {
 
                     values.add(search);
                 }
-                ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
                 ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
                 Market market = (Market) intent.getSerializableExtra("market");
 
-                Intent i = new Intent(FindProductService.this, ProductActivity.class);
+                Intent i = new Intent("PRODUCTS");
                 i.putExtra("results", values);
                 i.putExtra("barcode", barcode);
-                i.putExtra("places", places);
                 i.putExtra("markets", markets);
                 i.putExtra("place", place);
                 i.putExtra("market", market);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                startActivity(i);
+                LocalBroadcastManager.getInstance(this).sendBroadcast(i);
             }
         } catch (Exception e) {
             e.printStackTrace();

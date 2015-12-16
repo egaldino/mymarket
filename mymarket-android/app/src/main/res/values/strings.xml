@@ -4,6 +4,7 @@
     <string name="loading">Loading</string>
 
     <string name="title_activity_main">My Market</string>
+    <string name="selec_place_msn_activity_main">Please, select a location!</string>
     <string name="scan_msn_activity_main">Scan product</string>
     <string name="list_msn_activity_main">This feature will be working soon!</string>
     <string name="cart_activity_main">Cart</string>
@@ -16,14 +17,14 @@
     <string name="last_update_activity_product">Last update</string>
     <string name="update_activity_product">Update price</string>
 
-    <string name="title_activity_suggest_market">Market</string>
+    <string name="title_activity_suggest_market">Market suggestion</string>
 
     <string name="send_activity_suggest_market">Send</string>
     <string name="label_name_activity_suggest_market">Name</string>
     <string name="label_address_activity_suggest_market">Address</string>
     <string name="error_msn_activity_suggest_market">Inform the name and the address of the market!</string>
 
-    <string name="title_activity_suggest_product">Collaboration</string>
+    <string name="title_activity_suggest_product">Product collaboration</string>
     <string name="send_activity_suggest_product">Send</string>
     <string name="label_price_activity_suggest_product">Price</string>
     <string name="label_brand_activity_suggest_product">Brand</string>
