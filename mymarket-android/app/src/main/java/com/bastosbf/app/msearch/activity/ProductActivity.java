@@ -74,6 +74,7 @@ public class ProductActivity extends AppCompatActivity {
         }
         Intent intent = getIntent();
         final Intent i = new Intent(ProductActivity.this, FindProductService.class);
+        i.putExtra("barcode", intent.getStringExtra("barcode"));
         i.putExtra("place", intent.getSerializableExtra("place"));
         i.putExtra("market", intent.getSerializableExtra("market"));
         i.putExtra("markets", intent.getSerializableExtra("markets"));
@@ -105,7 +106,7 @@ public class ProductActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void receiveList(Intent intent) {
+    protected void receiveList(final Intent intent) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         textView1 = (TextView) findViewById(R.id.textView1);
@@ -123,7 +124,6 @@ public class ProductActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = getIntent();
                     String barcode = String.valueOf(textView2.getText());
                     ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
                     ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
@@ -174,7 +174,6 @@ public class ProductActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = getIntent();
                     String barcode = String.valueOf(textView2.getText());
                     ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
                     ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");

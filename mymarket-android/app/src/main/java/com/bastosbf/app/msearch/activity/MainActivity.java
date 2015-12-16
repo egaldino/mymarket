@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void fakescan(View view) {
         Intent i = new Intent();
-        i.putExtra("SCAN_RESULT", "000000");
+        i.putExtra("SCAN_RESULT", "7896081805107");
         onActivityResult(49374, 0, i);
     }
 

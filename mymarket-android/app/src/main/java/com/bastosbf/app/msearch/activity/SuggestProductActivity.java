@@ -81,7 +81,6 @@ public class SuggestProductActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.button);
 
         Intent intent = getIntent();
-        ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
         ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
         Place place = (Place) intent.getSerializableExtra("place");
         Market market = (Market) intent.getSerializableExtra("market");
