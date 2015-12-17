@@ -1,8 +1,12 @@
 package com.bastosbf.app.msearch.activity;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -36,12 +40,30 @@ public class SuggestProductActivity extends AppCompatActivity {
     private EditText editText3;
     private EditText editText4;
     private Button button;
+    private ProgressDialog progress;
     private String rootURL;
 
+    private static final int PRODUCT = 1;
+    private static final int PRICE = 2;
+
+    private BroadcastReceiver productSuggestionReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            sendMessage(PRODUCT);
+        }
+    };
+
+    private BroadcastReceiver priceSuggestionReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            sendMessage(PRICE);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_suggest_product);
         try {
             InputStream is = getBaseContext().getAssets().open("mymarket.properties");
             Properties properties = new Properties();
@@ -50,7 +72,8 @@ public class SuggestProductActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        setContentView(R.layout.activity_suggest_product);
+        LocalBroadcastManager.getInstance(this).registerReceiver((productSuggestionReceiver), new IntentFilter("SUGGEST_PRODUCT"));
+        LocalBroadcastManager.getInstance(this).registerReceiver((priceSuggestionReceiver), new IntentFilter("SUGGEST_PRICE"));
     }
 
     @Override
@@ -137,7 +160,6 @@ public class SuggestProductActivity extends AppCompatActivity {
         button.setEnabled(false);
 
         Intent intent = getIntent();
-        ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
         ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
         Place place = (Place) intent.getSerializableExtra("place");
         Market market = (Market) spinner.getSelectedItem();
@@ -157,8 +179,7 @@ public class SuggestProductActivity extends AppCompatActivity {
             return;
         }
 
-        Intent i = new Intent(SuggestProductActivity.this, SuggestProductService.class);
-        i.putExtra("places", places);
+        final Intent i = new Intent(SuggestProductActivity.this, SuggestProductService.class);
         i.putExtra("markets", markets);
         i.putExtra("place", place);
         i.putExtra("market", market);
@@ -167,6 +188,14 @@ public class SuggestProductActivity extends AppCompatActivity {
         i.putExtra("brand", brand);
         i.putExtra("price", price);
         i.putExtra("root-url", rootURL);
+
+        progress = ProgressDialog.show(SuggestProductActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.loading), true, true);
+        progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                stopService(i);
+            }
+        });
 
         startService(i);
     }
@@ -180,7 +209,6 @@ public class SuggestProductActivity extends AppCompatActivity {
         button.setEnabled(false);
 
         Intent intent = getIntent();
-        ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
         ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
         Place place = (Place) intent.getSerializableExtra("place");
         Market market = (Market) spinner.getSelectedItem();
@@ -199,7 +227,6 @@ public class SuggestProductActivity extends AppCompatActivity {
         }
 
         final Intent i = new Intent(SuggestProductActivity.this, SuggestPriceService.class);
-        i.putExtra("places", places);
         i.putExtra("markets", markets);
         i.putExtra("place", place);
         i.putExtra("market", market);
@@ -207,17 +234,30 @@ public class SuggestProductActivity extends AppCompatActivity {
         i.putExtra("price", price);
         i.putExtra("root-url", rootURL);
 
-        startService(i);
-
-        ProgressDialog progress = ProgressDialog.show(SuggestProductActivity.this, getResources().getString(R.string.loading),
-                getResources().getString(R.string.loading), true);
-        progress.setCancelable(true);
+        progress = ProgressDialog.show(SuggestProductActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.loading), true, true);
         progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
                 stopService(i);
             }
         });
-        progress.show();
+
+        startService(i);
+    }
+
+    private void sendMessage(int type) {
+        progress.dismiss();
+        if(PRODUCT == type) {
+            Toast.makeText(SuggestProductActivity.this, getResources().getString(R.string.msn_service_suggest_product), Toast.LENGTH_SHORT).show();
+        } else if(PRICE == type) {
+            Toast.makeText(SuggestProductActivity.this, getResources().getString(R.string.msn_service_suggest_price), Toast.LENGTH_SHORT).show();
+        }
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

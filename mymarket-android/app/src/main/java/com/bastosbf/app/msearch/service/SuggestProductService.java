@@ -2,6 +2,7 @@ package com.bastosbf.app.msearch.service;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.bastosbf.app.msearch.R;
 import com.bastosbf.app.msearch.activity.MainActivity;
@@ -54,15 +55,8 @@ public class SuggestProductService extends IntentService {
             InputStream is = connection.getInputStream();
             is.close();
 
-            Intent i = new Intent(SuggestProductService.this, MainActivity.class);
-            i.putExtra("places", places);
-            i.putExtra("markets", markets);
-            i.putExtra("place", place);
-            i.putExtra("market", market);
-            i.putExtra("msn", getResources().getString(R.string.msn_service_suggest_product));
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            startActivity(i);
+            Intent i = new Intent("SUGGEST_PRODUCT");
+            LocalBroadcastManager.getInstance(this).sendBroadcast(i);
         } catch (Exception e) {
             e.printStackTrace();
         }

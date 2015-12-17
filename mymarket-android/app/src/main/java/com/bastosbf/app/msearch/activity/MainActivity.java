@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
-            ArrayAdapter<Place> adapter = new ArrayAdapter<Place>(MainActivity.this, android.R.layout.simple_spinner_item, places);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            ArrayAdapter<Place> adapter = new ArrayAdapter<Place>(MainActivity.this, R.layout.spinner_item, places);
+            adapter.setDropDownViewResource(R.layout.spinner_item);
             spinner1.setAdapter(adapter);
             placesProgress.dismiss();
         }
@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
-            ArrayAdapter<Market> adapter = new ArrayAdapter<Market>(MainActivity.this, android.R.layout.simple_spinner_item, markets);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            ArrayAdapter<Market> adapter = new ArrayAdapter<Market>(MainActivity.this, R.layout.spinner_item, markets);
+            adapter.setDropDownViewResource(R.layout.spinner_item);
             spinner2.setAdapter(adapter);
             marketsProgress.dismiss();
         }
@@ -126,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
                 if(place == null || place.getId() == 0) {
                     Toast.makeText(MainActivity.this, getResources().getString(R.string.selec_place_msn_activity_main), Toast.LENGTH_SHORT).show();
                 } else {
-                    fakescan(v);
-                    //scan(v);
+                    //fakescan(v);
+                    scan(v);
                 }
             }
         });

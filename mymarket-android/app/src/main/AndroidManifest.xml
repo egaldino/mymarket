@@ -28,6 +28,7 @@
         </activity>
         <activity
             android:name=".activity.ProductActivity"
+            android:noHistory="true"
             android:label="@string/title_activity_product">
         </activity>
         <activity

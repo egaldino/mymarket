@@ -1,5 +1,6 @@
 package com.bastosbf.app.msearch.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -125,17 +126,15 @@ public class ProductActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     String barcode = String.valueOf(textView2.getText());
-                    ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
                     ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
                     Place place = (Place) intent.getSerializableExtra("place");
                     Market market = (Market) intent.getSerializableExtra("market");
 
                     Intent i = new Intent(ProductActivity.this, SuggestProductActivity.class);
                     i.putExtra("barcode", barcode);
-                    i.putExtra("places", places);
-                    i.putExtra("markets", markets);
                     i.putExtra("place", place);
                     i.putExtra("market", market);
+                    i.putExtra("markets", markets);
 
                     startActivity(i);
                 }
@@ -182,16 +181,21 @@ public class ProductActivity extends AppCompatActivity {
 
                     Intent i = new Intent(ProductActivity.this, SuggestProductActivity.class);
                     i.putExtra("barcode", barcode);
-                    i.putExtra("places", places);
-                    i.putExtra("markets", markets);
-                    i.putExtra("place", place);
-                    i.putExtra("market", market);
                     i.putExtra("productName", productName);
                     i.putExtra("productBrand", productBrand);
+                    i.putExtra("place", place);
+                    i.putExtra("market", market);
+                    i.putExtra("markets", markets);
 
                     startActivity(i);
                 }
             });
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }
