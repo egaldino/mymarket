@@ -90,7 +90,7 @@ public class SuggestMarketActivity extends AppCompatActivity {
         i.putExtra("marketAddress", address);
         i.putExtra("root-url", rootURL);
 
-        progress = ProgressDialog.show(SuggestMarketActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.loading), true, true);
+        progress = ProgressDialog.show(SuggestMarketActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.suggest_loading_activity_suggest_market), true, true);
         progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {

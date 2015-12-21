@@ -4,6 +4,8 @@
     <string name="loading">Carregando</string>
 
     <string name="title_activity_main">Meu Mercado</string>
+    <string name="places_loading_activity_main">Carregando locais</string>
+    <string name="markets_loading_activity_main">Carregando mercados</string>
     <string name="selec_place_msn_activity_main">Por favor, selecione a localização!</string>
     <string name="scan_msn_activity_main">Escanear produto</string>
     <string name="list_msn_activity_main">Essa funcionalidade estará funcionando já já!</string>
@@ -11,6 +13,7 @@
     <string name="suggest_market_activity_main">Adicionar mercado</string>
 
     <string name="title_activity_product">Produto</string>
+    <string name="products_loading_activity_product">Carregando produtos</string>
     <string name="not_found_activity_product">Produto não encontrado!</string>
     <string name="add_activity_product">Adicionar produto</string>
     <string name="currency_activity_product">R$</string>
@@ -18,13 +21,15 @@
     <string name="update_activity_product">Atualizar preço</string>
 
     <string name="title_activity_suggest_market">Sugestão de mercado</string>
-
+    <string name="suggest_loading_activity_suggest_market">Enviando sugestão de mercado</string>
     <string name="send_activity_suggest_market">Enviar</string>
     <string name="label_name_activity_suggest_market">Nome</string>
     <string name="label_address_activity_suggest_market">Endereço</string>
     <string name="error_msn_activity_suggest_market">Digite o nome e o endereço do mercado!</string>
 
     <string name="title_activity_suggest_product">Colaboração de produto</string>
+    <string name="suggest_product_loading_activity_suggest_product">Enviando sugestão de produto</string>
+    <string name="suggest_price_loading_activity_suggest_product">Enviando atualização de preço</string>
     <string name="send_activity_suggest_product">Enviar</string>
     <string name="label_price_activity_suggest_product">Preço</string>
     <string name="label_brand_activity_suggest_product">Marca</string>

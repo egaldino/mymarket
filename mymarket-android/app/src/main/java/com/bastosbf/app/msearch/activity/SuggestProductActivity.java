@@ -189,7 +189,7 @@ public class SuggestProductActivity extends AppCompatActivity {
         i.putExtra("price", price);
         i.putExtra("root-url", rootURL);
 
-        progress = ProgressDialog.show(SuggestProductActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.loading), true, true);
+        progress = ProgressDialog.show(SuggestProductActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.suggest_product_loading_activity_suggest_product), true, true);
         progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
@@ -234,7 +234,7 @@ public class SuggestProductActivity extends AppCompatActivity {
         i.putExtra("price", price);
         i.putExtra("root-url", rootURL);
 
-        progress = ProgressDialog.show(SuggestProductActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.loading), true, true);
+        progress = ProgressDialog.show(SuggestProductActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.suggest_price_loading_activity_suggest_product), true, true);
         progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.PersistableBundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,28 +44,47 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton imageButton;
     private String rootURL;
 
+    private Place place;
+    private Market market;
+    private ArrayList<Place> places;
+    private ArrayList<Market> markets;
+
+
 
     private BroadcastReceiver placesReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
-            ArrayAdapter<Place> adapter = new ArrayAdapter<Place>(MainActivity.this, R.layout.spinner_item, places);
-            adapter.setDropDownViewResource(R.layout.spinner_item);
+            places = (ArrayList<Place>) intent.getSerializableExtra("places");
+            ArrayAdapter<Place> adapter = new ArrayAdapter<Place>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, places);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner1.setAdapter(adapter);
-            placesProgress.dismiss();
+            if(placesProgress != null && placesProgress.isShowing()) {
+                placesProgress.dismiss();
+            }
         }
     };
     private BroadcastReceiver marketsReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
-            ArrayAdapter<Market> adapter = new ArrayAdapter<Market>(MainActivity.this, R.layout.spinner_item, markets);
-            adapter.setDropDownViewResource(R.layout.spinner_item);
+            markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
+            ArrayAdapter<Market> adapter = new ArrayAdapter<Market>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, markets);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner2.setAdapter(adapter);
-            marketsProgress.dismiss();
+            if(marketsProgress != null && marketsProgress.isShowing()) {
+                marketsProgress.dismiss();
+            }
         }
     };
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("place", place);
+        outState.putSerializable("market", market);
+        outState.putSerializable("places", places);
+        outState.putSerializable("markets", markets);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,23 +98,44 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        final Intent i = new Intent(MainActivity.this, ListPlacesService.class);
-        i.putExtra("root-url", rootURL);
-        startService(i);
-        placesProgress = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.loading), true, true);
-        placesProgress.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                stopService(i);
-            }
-        });
-
         spinner1 = (Spinner) findViewById(R.id.spinner1);
+        spinner2 = (Spinner) findViewById(R.id.spinner2);
+        imageButton = (ImageButton) findViewById(R.id.imageButton);
+        if(savedInstanceState == null) {
+            final Intent i = new Intent(MainActivity.this, ListPlacesService.class);
+            i.putExtra("root-url", rootURL);
+            startService(i);
+            placesProgress = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.places_loading_activity_main), true, true);
+            placesProgress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    stopService(i);
+                }
+            });
+        } else {
+            place = (Place) savedInstanceState.getSerializable("place");
+            market = (Market) savedInstanceState.getSerializable("market");
+            places = (ArrayList<Place>) savedInstanceState.getSerializable("places");
+            markets = (ArrayList<Market>) savedInstanceState.getSerializable("markets");
+            {
+                ArrayAdapter<Place> adapter = new ArrayAdapter<Place>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, places);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner1.setAdapter(adapter);
+                int position = adapter.getPosition(place);
+                spinner1.setSelection(position);
+            }
+            {
+                ArrayAdapter<Market> adapter = new ArrayAdapter<Market>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, markets);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner2.setAdapter(adapter);
+                int position = adapter.getPosition(market);
+                spinner2.setSelection(position);
+            }
+        }
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Place place = (Place) parent.getItemAtPosition(position);
+                place = (Place) parent.getItemAtPosition(position);
                 if (place.getId() == 0) {
                     spinner2 = (Spinner) findViewById(R.id.spinner2);
                     spinner2.setAdapter(null);
@@ -103,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                     i.putExtra("place", place);
                     i.putExtra("root-url", rootURL);
                     startService(i);
-                    marketsProgress = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.loading), true, true);
+                    marketsProgress = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.markets_loading_activity_main), true, true);
                     marketsProgress.setOnCancelListener(new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialog) {
@@ -112,21 +153,30 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
-        spinner2 = (Spinner) findViewById(R.id.spinner2);
-        imageButton = (ImageButton) findViewById(R.id.imageButton);
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                market = (Market) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Place place = (Place) spinner1.getSelectedItem();
-                if(place == null || place.getId() == 0) {
+                if (place == null || place.getId() == 0) {
                     Toast.makeText(MainActivity.this, getResources().getString(R.string.selec_place_msn_activity_main), Toast.LENGTH_SHORT).show();
                 } else {
-                    //fakescan(v);
                     scan(v);
                 }
             }
@@ -163,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void fakescan(View view) {
         Intent i = new Intent();
-        i.putExtra("SCAN_RESULT", "7896081805107");
+        i.putExtra("SCAN_RESULT", "000000");
         onActivityResult(49374, 0, i);
     }
 
@@ -184,12 +234,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == IntentIntegrator.REQUEST_CODE) {
             if(data == null) {
-                return;
+               return;
             }
-            Intent intent = getIntent();
+            ArrayList<Market> markets = (ArrayList) getAllItems(spinner2);
             Place place = (Place) spinner1.getSelectedItem();
             Market market = (Market) spinner2.getSelectedItem();
-            ArrayList<Market> markets = (ArrayList) getAllItems(spinner2);
             Intent i = new Intent(MainActivity.this, ProductActivity.class);
             String barcode = data.getStringExtra("SCAN_RESULT");
             i.putExtra("barcode", barcode);
@@ -204,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
     public List<Object> getAllItems(Spinner spinner) {
         Adapter adapter = spinner.getAdapter();
         int n = adapter.getCount();
-        List<Object> items = new ArrayList<Object>(n);
+        List<Object> items = new ArrayList<Object>();
         for (int i = 0; i < n; i++) {
             Object item = adapter.getItem(i);
             items.add(item);

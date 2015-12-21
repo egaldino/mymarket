@@ -81,7 +81,7 @@ public class ProductActivity extends AppCompatActivity {
         i.putExtra("markets", intent.getSerializableExtra("markets"));
         i.putExtra("root-url", rootURL);
         startService(i);
-        progress = ProgressDialog.show(ProductActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.loading), true, true);
+        progress = ProgressDialog.show(ProductActivity.this, getResources().getString(R.string.loading), getResources().getString(R.string.products_loading_activity_product), true, true);
         progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
