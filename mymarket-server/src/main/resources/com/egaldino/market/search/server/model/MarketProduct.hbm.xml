@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.egaldino.market.search.server.model.MarketProduct"
+		table="market_product" lazy="false">
+		<composite-id>
+			<key-many-to-one name="market"
+				class="com.egaldino.market.search.server.model.Market">				
+			</key-many-to-one>
+			<key-many-to-one name="product"
+				class="com.egaldino.market.search.server.model.Product">				
+			</key-many-to-one>
+		</composite-id>
+		<property name="price" />
+		<property name="lastUpdate" column="last_update"/>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.egaldino.market.search.server.model.Market"
+		table="market" lazy="false">
+		<id name="id" column="id" />
+		<property name="name" />
+		<many-to-one name="place"
+			class="com.egaldino.market.search.server.model.Place" fetch="select" />
+		<property name="address" />
+	</class>
+</hibernate-mapping>
