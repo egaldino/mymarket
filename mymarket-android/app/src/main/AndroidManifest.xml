@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bastosbf.app.msearch" >
+    package="com.egaldino.app.msearch" >
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name=".activity.SplashScreenActivity"
+            android:name="com.egaldino.app.msearch.activity.SplashScreenActivity"
             android:label="@string/title_activity_splash_screen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,45 +23,45 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.egaldino.app.msearch.activity.MainActivity"
             android:label="@string/title_activity_main" >
         </activity>
         <activity
-            android:name=".activity.ProductActivity"
+            android:name="com.egaldino.app.msearch.activity.ProductActivity"
             android:noHistory="true"
             android:label="@string/title_activity_product">
         </activity>
         <activity
-            android:name=".activity.SuggestProductActivity"
+            android:name="com.egaldino.app.msearch.activity.SuggestProductActivity"
             android:label="@string/title_activity_suggest_product">
         </activity>
         <activity
-            android:name=".activity.SuggestMarketActivity"
+            android:name="com.egaldino.app.msearch.activity.SuggestMarketActivity"
             android:label="@string/title_activity_suggest_market" >
         </activity>
 
         <service
-            android:name=".service.FindProductService"
+            android:name="com.egaldino.app.msearch.service.FindProductService"
             android:exported="false" >
         </service>
         <service
-            android:name=".service.ListPlacesService"
+            android:name="com.egaldino.app.msearch.service.ListPlacesService"
             android:exported="false" >
         </service>
         <service
-            android:name=".service.ListMarketsService"
+            android:name="com.egaldino.app.msearch.service.ListMarketsService"
             android:exported="false" >
         </service>
         <service
-            android:name=".service.SuggestMarketService"
+            android:name="com.egaldino.app.msearch.service.SuggestMarketService"
             android:exported="false" >
         </service>
         <service
-            android:name=".service.SuggestProductService"
+            android:name="com.egaldino.app.msearch.service.SuggestProductService"
             android:exported="false" >
         </service>
         <service
-            android:name=".service.SuggestPriceService"
+            android:name="com.egaldino.app.msearch.service.SuggestPriceService"
             android:exported="false" >
         </service>
     </application>

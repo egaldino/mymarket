@@ -51,5 +51,7 @@
 
     <string name="msn_service_suggest_price">Price of the product successfully updated!</string>
 
+    <string name="scan_msn">Scan</string>
+
 
 </resources>
