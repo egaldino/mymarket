@@ -46,6 +46,22 @@ public class MarketProductDAO extends GenericDAO<MarketProduct> {
 		}		
 	}
 	
+	public void confirmPrice(int market, String barcode, Date date) {
+		Session session = factory.openSession();
+		session.beginTransaction();
+		Criteria criteria = session.createCriteria(MarketProduct.class)
+				.createAlias("product", "p")
+				.createAlias("market", "m")
+				.add(Restrictions.eq("p.barcode", barcode))
+				.add(Restrictions.eq("m.id", market));
+		List<MarketProduct> list = criteria.list();
+		if(!list.isEmpty()) {
+			MarketProduct mp = list.get(0);
+			mp.setLastUpdate(date);
+			update(mp);
+		}		
+	}
+	
 	public List<MarketProduct> getByBarcodeAndPlace(String barcode, int place, int maxResults) {
 		Session session = factory.openSession();
 		session.beginTransaction();

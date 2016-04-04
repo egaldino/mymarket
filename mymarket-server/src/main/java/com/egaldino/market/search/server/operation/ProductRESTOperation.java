@@ -23,7 +23,7 @@ public class ProductRESTOperation {
 		ProductDAO dao = new ProductDAO(HibernateConfig.factory);
 		return dao.listByMarket(market);
 	}
-	
+
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/list-by-place")
@@ -39,7 +39,4 @@ public class ProductRESTOperation {
 		ProductDAO dao = new ProductDAO(HibernateConfig.factory);
 		return dao.get(barcode);
 	}
-	
-	
-
 }

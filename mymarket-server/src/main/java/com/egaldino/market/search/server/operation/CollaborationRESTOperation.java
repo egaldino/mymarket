@@ -39,7 +39,7 @@ public class CollaborationRESTOperation {
 	@Path("/suggest-product")
 	public void suggestProduct(@QueryParam("market") int market,
 			@QueryParam("barcode") String barcode,
-			@QueryParam("name") String name, @QueryParam("brand") String brand,
+			@QueryParam("name") String name,
 			@QueryParam("price") double price) {
 		Market m = null;
 		{
@@ -57,7 +57,6 @@ public class CollaborationRESTOperation {
 					product = new Product();
 					product.setBarcode(barcode);
 					product.setName(name);
-					product.setBrand(brand);
 					
 					ProductDAO dao = new ProductDAO(HibernateConfig.factory);
 					dao.add(product);
@@ -101,6 +100,29 @@ public class CollaborationRESTOperation {
 			}
 		}
 
+	}
+	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("/confirm-price")
+	public void confirmPrice(@QueryParam("market") int market, @QueryParam("barcode") String product, @QueryParam("date") Date date) {
+		Market m = null;
+		{
+			MarketDAO dao = new MarketDAO(HibernateConfig.factory);
+			m = dao.get(market);
+		}
+		if (m != null) {
+			Product p = null;
+			{
+				ProductDAO dao = new ProductDAO(HibernateConfig.factory);
+				p = dao.get(product);
+			}
+			if (p != null) {
+				MarketProductDAO dao = new MarketProductDAO(
+						HibernateConfig.factory);
+				dao.confirmPrice(market, product, date);
+			}
+		}
 	}
 
 }
