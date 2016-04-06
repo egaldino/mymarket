@@ -26,6 +26,7 @@ import com.egaldino.app.msearch.model.Market;
 import com.egaldino.app.msearch.model.Place;
 import com.egaldino.app.msearch.model.Product;
 import com.egaldino.app.msearch.model.Search;
+import com.egaldino.app.msearch.service.ConfirmPriceService;
 import com.egaldino.app.msearch.service.FindProductService;
 
 import java.io.IOException;
@@ -142,7 +143,7 @@ public class ProductActivity extends AppCompatActivity {
             for (Search result : results) {
                 if(product == null) {
                     product = result.getProduct();
-                    textView1.setText(product.getName() + " - " + product.getBrand());
+                    textView1.setText(product.getName());
                     textView2.setText(product.getBarcode());
                 }
                 Market market = result.getMarket();
@@ -166,7 +167,6 @@ public class ProductActivity extends AppCompatActivity {
             listView.setAdapter(adapter);
             buttonAction.setText(getResources().getString(R.string.update_activity_product));
             final String productName = product.getName();
-            final String productBrand = product.getBrand();
             buttonAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -179,7 +179,6 @@ public class ProductActivity extends AppCompatActivity {
                     Intent i = new Intent(ProductActivity.this, SuggestProductActivity.class);
                     i.putExtra("barcode", barcode);
                     i.putExtra("productName", productName);
-                    i.putExtra("productBrand", productBrand);
                     i.putExtra("place", place);
                     i.putExtra("market", market);
                     i.putExtra("markets", markets);
@@ -190,7 +189,22 @@ public class ProductActivity extends AppCompatActivity {
             buttonConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String barcode = String.valueOf(textView2.getText());
+                    ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
+                    ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
+                    Place place = (Place) intent.getSerializableExtra("place");
+                    Market market = (Market) intent.getSerializableExtra("market");
 
+                    Intent i = new Intent(ProductActivity.this, ConfirmPriceService.class);
+                    i.putExtra("barcode", barcode);
+                    i.putExtra("market", market);
+                    i.putExtra("root-url", rootURL);
+               /*     i.putExtra("productName", productName);
+                    i.putExtra("place", place);
+
+                    i.putExtra("markets", markets);*/
+
+                    startService(i);
                 }
             });
         }

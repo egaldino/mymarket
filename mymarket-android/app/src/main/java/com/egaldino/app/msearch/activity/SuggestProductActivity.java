@@ -37,7 +37,6 @@ public class SuggestProductActivity extends AppCompatActivity {
     private Spinner spinner;
     private EditText editText1;
     private EditText editText2;
-    private EditText editText3;
     private EditText editText4;
     private Button button;
     private ProgressDialog progress;
@@ -100,7 +99,6 @@ public class SuggestProductActivity extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spinner);
         editText1 = (EditText) findViewById(R.id.editText1);
         editText2 = (EditText) findViewById(R.id.editText2);
-        editText3 = (EditText) findViewById(R.id.editText3);
         button = (Button) findViewById(R.id.button_action);
 
         Intent intent = getIntent();
@@ -126,13 +124,9 @@ public class SuggestProductActivity extends AppCompatActivity {
             editText2.setEnabled(false);
 
         }
-        if(intent.hasExtra("productBrand")) {
-            String productBrand = intent.getStringExtra("productBrand");
-            editText3.setText(productBrand);
-            editText3.setEnabled(false);
-        }
 
-        if(intent.hasExtra("productName") && intent.hasExtra("productBrand")) {
+
+        if(intent.hasExtra("productName")) {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -153,7 +147,6 @@ public class SuggestProductActivity extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spinner);
         editText1 = (EditText) findViewById(R.id.editText1);
         editText2 = (EditText) findViewById(R.id.editText2);
-        editText3 = (EditText) findViewById(R.id.editText3);
         editText4 = (EditText) findViewById(R.id.editText4);
         button = (Button) findViewById(R.id.button_action);
         //to avoid double clicks
@@ -170,10 +163,9 @@ public class SuggestProductActivity extends AppCompatActivity {
         }
         String barcode = String.valueOf(editText1.getText());
         String name = URLUtils.removeEmptySpaces(String.valueOf(editText2.getText()));
-        String brand = URLUtils.removeEmptySpaces(String.valueOf(editText3.getText()));
         String price = String.valueOf(editText4.getText());
 
-        if(name.isEmpty() || brand.isEmpty() || price.isEmpty()) {
+        if(name.isEmpty() ||  price.isEmpty()) {
             Toast.makeText(SuggestProductActivity.this, getResources().getString(R.string.fields_error_msn_activity_suggest_product), Toast.LENGTH_LONG).show();
             button.setEnabled(true);
             return;
@@ -185,7 +177,6 @@ public class SuggestProductActivity extends AppCompatActivity {
         i.putExtra("market", market);
         i.putExtra("barcode", barcode);
         i.putExtra("name", name);
-        i.putExtra("brand", brand);
         i.putExtra("price", price);
         i.putExtra("root-url", rootURL);
 

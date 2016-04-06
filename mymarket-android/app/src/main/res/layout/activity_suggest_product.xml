@@ -52,26 +52,15 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText3"
-        android:layout_alignParentStart="true"
-        android:hint="@string/label_brand_activity_suggest_product"
-        android:layout_below="@+id/editText2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/editText2"
-        android:layout_alignEnd="@+id/editText2" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/editText4"
         android:layout_alignParentStart="true"
         android:hint="@string/label_price_activity_suggest_product"
-        android:layout_below="@+id/editText3"
+        android:layout_below="@+id/editText2"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/editText3"
-        android:layout_alignEnd="@+id/editText3" />
+        android:layout_alignRight="@+id/editText2"
+        android:layout_alignEnd="@+id/editText2" />
 
     <Button
         android:layout_width="wrap_content"

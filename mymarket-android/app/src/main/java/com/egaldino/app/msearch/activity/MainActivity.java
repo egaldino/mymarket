@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 if (place == null || place.getId() == 0) {
                     Toast.makeText(MainActivity.this, getResources().getString(R.string.selec_place_msn_activity_main), Toast.LENGTH_SHORT).show();
                 } else {
-                    scan(v);
+                    fakescan(v);
                 }
             }
         });
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void fakescan(View view) {
         Intent i = new Intent();
-        i.putExtra("SCAN_RESULT", "000000");
+        i.putExtra("SCAN_RESULT", "7898231840075");
         onActivityResult(49374, 0, i);
     }
 

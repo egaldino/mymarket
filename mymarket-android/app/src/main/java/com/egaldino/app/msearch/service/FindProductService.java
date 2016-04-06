@@ -61,7 +61,6 @@ public class FindProductService extends IntentService {
                     Product p = new Product();
                     p.setBarcode(product.getString("barcode"));
                     p.setName(product.getString("name"));
-                    p.setBrand(product.getString("brand"));
 
                     JSONObject market = result.getJSONObject("market");
                     Market m = new Market();

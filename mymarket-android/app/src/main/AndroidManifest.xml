@@ -64,6 +64,10 @@
             android:name="com.egaldino.app.msearch.service.SuggestPriceService"
             android:exported="false" >
         </service>
+        <service
+            android:name="com.egaldino.app.msearch.service.ConfirmPriceService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

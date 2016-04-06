@@ -3,6 +3,7 @@ package com.egaldino.app.msearch.service;
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.Toast;
 
 import com.egaldino.app.msearch.R;
 import com.egaldino.app.msearch.model.Place;
@@ -50,7 +51,7 @@ public class ListPlacesService extends IntentService {
                 response += line;
             }
             in.close();
-            if (!response.isEmpty()) {
+            if ((connection.getResponseCode() == 200) && (!response.isEmpty())) {
                 ArrayList<Place> values = new ArrayList<Place>();
                 //add select message
                 {
@@ -75,9 +76,12 @@ public class ListPlacesService extends IntentService {
                 Intent i = new Intent("PLACES");
                 i.putExtra("places", values);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(i);
+            } else {
+                Toast.makeText(this, "Some Error Occur", Toast.LENGTH_LONG);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(this, "Some Error Occur", Toast.LENGTH_LONG);
         }
     }
 }

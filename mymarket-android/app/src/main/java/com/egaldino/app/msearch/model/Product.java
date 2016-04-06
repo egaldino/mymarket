@@ -9,7 +9,6 @@ public class Product implements Serializable {
 
     private String barcode;
     private String name;
-    private String brand;
 
     public String getBarcode() {
         return barcode;
@@ -27,16 +26,8 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
     @Override
     public String toString() {
-        return name + "-" + getBrand();
+        return name ;
     }
 }
