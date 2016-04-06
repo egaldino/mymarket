@@ -105,7 +105,7 @@ public class CollaborationRESTOperation {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/confirm-price")
-	public void confirmPrice(@QueryParam("market") int market, @QueryParam("barcode") String product, @QueryParam("date") Date date) {
+	public void confirmPrice(@QueryParam("market") int market, @QueryParam("barcode") String product) {
 		Market m = null;
 		{
 			MarketDAO dao = new MarketDAO(HibernateConfig.factory);
@@ -120,7 +120,7 @@ public class CollaborationRESTOperation {
 			if (p != null) {
 				MarketProductDAO dao = new MarketProductDAO(
 						HibernateConfig.factory);
-				dao.confirmPrice(market, product, date);
+				dao.confirmPrice(market, product, new Date());
 			}
 		}
 	}
