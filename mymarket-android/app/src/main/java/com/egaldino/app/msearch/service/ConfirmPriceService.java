@@ -1,7 +1,11 @@
 package com.egaldino.app.msearch.service;
 
 import android.app.IntentService;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -56,8 +60,10 @@ public class ConfirmPriceService extends IntentService {
                 response += line;
             }
             in.close();
-            if (!response.isEmpty()) {
-                Toast.makeText(this, "Thansks!", Toast.LENGTH_SHORT).show();
+            int code = connection.getResponseCode();
+            if (code == 200 || code == 204) {
+                Intent i = new Intent("CONFIRM_PRICE");
+                LocalBroadcastManager.getInstance(this).sendBroadcast(i);
             }
         } catch (Exception e) {
             e.printStackTrace();

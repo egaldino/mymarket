@@ -12,6 +12,7 @@
     <string name="list_msn_activity_main">This feature will be working soon!</string>
     <string name="cart_activity_main">Cart</string>
     <string name="suggest_market_activity_main">Add market</string>
+    <string name="selec_place_msn_activity_main">Please, select a place!</string>
 
     <string name="title_activity_product">Product</string>
     <string name="products_loading_activity_product">Loading products</string>

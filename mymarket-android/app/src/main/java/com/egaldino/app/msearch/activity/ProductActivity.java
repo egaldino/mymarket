@@ -57,6 +57,13 @@ public class ProductActivity extends AppCompatActivity {
         }
     };
 
+    private BroadcastReceiver confirmReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            progress.dismiss();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +92,8 @@ public class ProductActivity extends AppCompatActivity {
             }
         });
         LocalBroadcastManager.getInstance(this).registerReceiver((productsReceiver), new IntentFilter("PRODUCTS"));
+        LocalBroadcastManager.getInstance(this).registerReceiver((confirmReceiver), new IntentFilter("CONFIRM_PRICE"));
+
     }
 
     @Override
@@ -189,6 +198,12 @@ public class ProductActivity extends AppCompatActivity {
             buttonConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    progress.setMessage("Sending...");
+                    progress.show();
+
+                    Intent iConfirmProgress = new Intent("CONFIRM_PROGRESS");
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(iConfirmProgress);
+
                     String barcode = String.valueOf(textView2.getText());
                     ArrayList<Place> places = (ArrayList<Place>) intent.getSerializableExtra("places");
                     ArrayList<Market> markets = (ArrayList<Market>) intent.getSerializableExtra("markets");
@@ -199,14 +214,22 @@ public class ProductActivity extends AppCompatActivity {
                     i.putExtra("barcode", barcode);
                     i.putExtra("market", market);
                     i.putExtra("root-url", rootURL);
-               /*     i.putExtra("productName", productName);
+                    i.putExtra("productName", productName);
                     i.putExtra("place", place);
 
-                    i.putExtra("markets", markets);*/
+                    i.putExtra("markets", markets);
 
                     startService(i);
+
+
+
                 }
             });
+            Market market = (Market) intent.getSerializableExtra("market");
+            if (market.getId() == 0){
+                buttonAction.setVisibility(View.INVISIBLE);
+                buttonConfirm.setVisibility(View.INVISIBLE);
+            }
         }
     }
 

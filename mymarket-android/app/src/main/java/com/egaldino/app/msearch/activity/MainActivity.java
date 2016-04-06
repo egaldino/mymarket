@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 if (place == null || place.getId() == 0) {
                     Toast.makeText(MainActivity.this, getResources().getString(R.string.selec_place_msn_activity_main), Toast.LENGTH_SHORT).show();
                 } else {
-                    fakescan(v);
+                    scan(v);
                 }
             }
         });
