@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
             ArrayAdapter<Place> adapter = new ArrayAdapter<Place>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, places);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner1.setAdapter(adapter);
+            SharedPreferences getPlace = getPreferences(MODE_PRIVATE);
+            int position = getPlace.getInt("place", 0);
+            if(position < adapter.getCount()) {
+                spinner1.setSelection(position);
+            }
             if(placesProgress != null && placesProgress.isShowing()) {
                 placesProgress.dismiss();
             }
@@ -137,6 +143,10 @@ public class MainActivity extends AppCompatActivity {
                     spinner2 = (Spinner) findViewById(R.id.spinner2);
                     spinner2.setAdapter(null);
                 } else {
+                    SharedPreferences savePlace = getPreferences(MODE_PRIVATE);
+                    SharedPreferences.Editor editor = savePlace.edit();
+                    editor.putInt("place", position);
+                    editor.commit();
                     final Intent i = new Intent(MainActivity.this, ListMarketsService.class);
                     i.putExtra("place", place);
                     i.putExtra("root-url", rootURL);
