@@ -4,13 +4,11 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.egaldino.app.msearch.activity.SplashScreenActivity">
+    tools:context="com.egaldino.app.app.activity.SplashScreenActivity">
 
     <ImageView android:id="@+id/logo" android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:src="@drawable/logo"
-        android:layout_gravity="center"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_gravity="center" />
 
 </RelativeLayout>
