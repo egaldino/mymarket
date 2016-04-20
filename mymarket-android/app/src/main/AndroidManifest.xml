@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name="com.egaldino.app.com.mymarket.app.activity.SplashScreenActivity"
+            android:name="com.mymarket.app.activity.SplashScreenActivity"
             android:label="@string/title_activity_splash_screen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,49 +23,49 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.egaldino.app.com.mymarket.app.activity.MainActivity"
+            android:name="com.mymarket.app.activity.MainActivity"
             android:label="@string/title_activity_main" >
         </activity>
         <activity
-            android:name="com.egaldino.app.com.mymarket.app.activity.ProductActivity"
+            android:name="com.mymarket.app.activity.ProductActivity"
             android:noHistory="true"
             android:label="@string/title_activity_product">
         </activity>
         <activity
-            android:name="com.egaldino.app.com.mymarket.app.activity.SuggestProductActivity"
+            android:name="com.mymarket.app.activity.SuggestProductActivity"
             android:label="@string/title_activity_suggest_product">
         </activity>
         <activity
-            android:name="com.egaldino.app.com.mymarket.app.activity.SuggestMarketActivity"
+            android:name="com.mymarket.app.activity.SuggestMarketActivity"
             android:label="@string/title_activity_suggest_market" >
         </activity>
 
         <service
-            android:name="com.egaldino.app.com.mymarket.app.service.FindProductService"
+            android:name="com.mymarket.app.service.FindProductService"
             android:exported="false" >
         </service>
         <service
-            android:name="com.egaldino.app.com.mymarket.app.service.ListPlacesService"
+            android:name="com.mymarket.app.service.ListPlacesService"
             android:exported="false" >
         </service>
         <service
-            android:name="com.egaldino.app.com.mymarket.app.service.ListMarketsService"
+            android:name="com.mymarket.app.service.ListMarketsService"
             android:exported="false" >
         </service>
         <service
-            android:name="com.egaldino.app.com.mymarket.app.service.SuggestMarketService"
+            android:name="com.mymarket.app.service.SuggestMarketService"
             android:exported="false" >
         </service>
         <service
-            android:name="com.egaldino.app.com.mymarket.app.service.SuggestProductService"
+            android:name="com.mymarket.app.service.SuggestProductService"
             android:exported="false" >
         </service>
         <service
-            android:name="com.egaldino.app.com.mymarket.app.service.SuggestPriceService"
+            android:name="com.mymarket.app.service.SuggestPriceService"
             android:exported="false" >
         </service>
         <service
-            android:name="com.egaldino.app.com.mymarket.app.service.ConfirmPriceService"
+            android:name="com.mymarket.app.service.ConfirmPriceService"
             android:exported="false" >
         </service>
     </application>

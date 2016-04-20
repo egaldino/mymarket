@@ -51,6 +51,9 @@ public class ListMarketsService extends IntentService {
             if (connectionAttempts > 3) {
                 Toast.makeText(getApplicationContext(), "Could not connect to the service. Please, check your internet connection and try again.", Toast.LENGTH_LONG).show();
                 //mostrar botão de roload
+                Intent i = new Intent("MARKETS");
+               // i.putExtra("markets", values);
+                LocalBroadcastManager.getInstance(this).sendBroadcast(i);
                 return;
             }
 
@@ -106,7 +109,8 @@ public class ListMarketsService extends IntentService {
             connectionAttempts++;
             onHandleIntent(intent);
         } catch (Exception e) {
-            e.printStackTrace();
+            connectionAttempts++;
+            onHandleIntent(intent);
         }
     }
 }

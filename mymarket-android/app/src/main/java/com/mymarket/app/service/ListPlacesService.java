@@ -50,7 +50,10 @@ public class ListPlacesService extends IntentService {
         try {
 
             if(connectionAttempts > 3){
-                Toast.makeText(getApplicationContext(), "Could not connect to the service. Please, check your internet connection and try again.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Could not connect to the service. Please, check your internet connection and try again.", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent("PLACES");
+                //i.putExtra("places", values);
+                LocalBroadcastManager.getInstance(this).sendBroadcast(i);
                 //mostrar botão de roload
                 return;
             }
@@ -109,8 +112,8 @@ public class ListPlacesService extends IntentService {
             connectionAttempts++;
             onHandleIntent(intent);
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Some Error Occur", Toast.LENGTH_LONG);
+            connectionAttempts++;
+            onHandleIntent(intent);
         }
     }
 }

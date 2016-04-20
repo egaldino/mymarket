@@ -9,25 +9,25 @@
     <Spinner
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner1"
+        android:id="@+id/placesSpinner"
         android:spinnerMode="dropdown"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:minHeight="@dimen/abc_edit_text_inset_top_material"
-        android:layout_alignRight="@+id/spinner2"
-        android:layout_alignEnd="@+id/spinner2" />
+        android:layout_alignRight="@+id/imageButton"
+        android:layout_alignEnd="@+id/imageButton" />
 
     <Spinner
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner2"
+        android:id="@+id/marketsSpinner"
         android:spinnerMode="dropdown"
-        android:layout_below="@+id/spinner1"
+        android:layout_below="@+id/placesSpinner"
         android:clickable="false"
         android:minHeight="@dimen/abc_edit_text_inset_top_material"
-        android:layout_alignRight="@+id/button1"
-        android:layout_alignEnd="@+id/button1" />
+        android:layout_alignRight="@+id/imageButton"
+        android:layout_alignEnd="@+id/imageButton" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -47,13 +47,34 @@
         android:layout_below="@+id/imageButton"
         android:onClick="suggestMarket" />
 
-<!--    <Button
+    <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cart_activity_main"
-        android:id="@+id/button2"
-        android:layout_below="@+id/button1"
-        android:onClick="list"/>-->
+        android:text="RP"
+        android:id="@+id/reloadPlacesButton"
+        android:layout_alignBottom="@+id/placesSpinner"
+        android:layout_toRightOf="@+id/placesSpinner"
+        android:layout_toEndOf="@+id/placesSpinner" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RM"
+        android:id="@+id/reloadMarketsButton"
+        android:layout_below="@+id/placesSpinner"
+        android:layout_toRightOf="@+id/placesSpinner"
+        android:layout_toEndOf="@+id/placesSpinner"
+        android:layout_alignBottom="@+id/marketsSpinner" />
+
+    <!--    <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cart_activity_main"
+            android:id="@+id/button2"
+            android:layout_below="@+id/button1"
+            android:onClick="list"/>-->
 
 </RelativeLayout>
